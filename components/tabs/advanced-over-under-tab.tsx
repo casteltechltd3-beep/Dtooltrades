@@ -335,7 +335,7 @@ export function MoneyMakerTab({ theme = "dark", recentDigits = [] }: MoneyMakerT
         </div>
 
         {/* Market Analysis */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-8">
           {/* Under Card */}
           <div className="flex flex-col items-center">
             <div className={`text-4xl sm:text-5xl font-black mb-2 ${theme === "dark" ? "text-blue-400" : "text-blue-600"}`}>
@@ -351,7 +351,7 @@ export function MoneyMakerTab({ theme = "dark", recentDigits = [] }: MoneyMakerT
               />
             </div>
             <div className={`text-xs font-medium ${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}>
-              Strongest: {analysis.strongestUnder}
+              Count: {Math.round(analysis.underPercent * analysisDigits.length / 100)} | Strongest: {analysis.strongestUnder}
             </div>
           </div>
 
@@ -370,7 +370,7 @@ export function MoneyMakerTab({ theme = "dark", recentDigits = [] }: MoneyMakerT
               />
             </div>
             <div className={`text-xs font-medium ${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}>
-              Strongest: {analysis.strongestOver}
+              Count: {Math.round(analysis.overPercent * analysisDigits.length / 100)} | Strongest: {analysis.strongestOver}
             </div>
           </div>
         </div>
