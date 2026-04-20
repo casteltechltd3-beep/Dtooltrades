@@ -400,7 +400,7 @@ export function SuperSignalsTab({ theme = "dark", symbol, availableSymbols, onSy
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
            <div
             className={`rounded-lg p-4 border ${theme === "dark" ? "bg-blue-500/10 border-blue-500/30" : "bg-blue-50 border-blue-200"}`}
           >
@@ -436,7 +436,7 @@ export function SuperSignalsTab({ theme = "dark", symbol, availableSymbols, onSy
             <Layers className="w-5 h-5" />
             Top Markets by Signal Strength
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {marketsWithSignals.slice(0, 4).map((market) => {
               const maxSignal = Math.max(
                 market.analysis.even.percentage,
@@ -481,25 +481,8 @@ export function SuperSignalsTab({ theme = "dark", symbol, availableSymbols, onSy
       )}
 
       {/* Markets Grid - Modern Card Design */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {totalMarkets.map((market) => {
-          const hasSignal =
-            market.analysis.under.signal === "TRADE NOW" ||
-            market.analysis.over.signal === "TRADE NOW" ||
-            market.analysis.even.signal === "TRADE NOW" ||
-            market.analysis.odd.signal === "TRADE NOW" ||
-            market.analysis.differs.signal === "TRADE NOW"
-
-          // Calculate signal strength
-          const signals = []
-          if (market.analysis.under.signal === "TRADE NOW") signals.push(market.analysis.under.percentage)
-          if (market.analysis.over.signal === "TRADE NOW") signals.push(market.analysis.over.percentage)
-          if (market.analysis.even.signal === "TRADE NOW") signals.push(market.analysis.even.percentage)
-          if (market.analysis.odd.signal === "TRADE NOW") signals.push(market.analysis.odd.percentage)
-          if (market.analysis.differs.signal === "TRADE NOW") signals.push(market.analysis.differs.percentage)
-          
-          const avgConfidence = signals.length > 0 ? signals.reduce((a, b) => a + b, 0) / signals.length : 0
-
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {Array.from(marketsData.values()).map((market) => {
           return (
             <Card
               key={market.symbol}
