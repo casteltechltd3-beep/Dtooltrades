@@ -228,15 +228,15 @@ export function AutoBotTab({ theme = "dark", symbol, onSymbolChange, availableSy
     <div className="space-y-3 sm:space-y-6">
       {/* Connection Status Alert - only show if no data and really disconnected */}
       {(apiError || localError || (!isConnected && marketPrice === 0)) && (
-        <Card className="glass neumi-sm rounded-2xl bg-gradient-orange animate-in fade-in slide-in-from-top-2 duration-500">
+        <Card className="bg-rose-500/5 border-rose-500/20 backdrop-blur-xl animate-in fade-in slide-in-from-top-2 duration-500">
           <CardContent className="p-4 flex items-start gap-3">
-            <div className="p-2 rounded-full bg-white/20">
-               <AlertCircle className="w-4 h-4 text-destructive shrink-0" />
+            <div className="p-2 rounded-full bg-rose-500/10 border border-rose-500/20">
+               <AlertCircle className="w-4 h-4 text-rose-500 shrink-0" />
             </div>
             <div>
-              <p className="text-xs font-bold uppercase tracking-wider text-destructive">Connection Error</p>
-              <p className="text-xs mt-2 text-muted-foreground font-medium">
-                {localError || apiError || "Negotiating connection..."}
+              <p className="text-xs font-black uppercase tracking-widest text-rose-400">Uplink Interruption</p>
+              <p className="text-[10px] sm:text-xs mt-1 text-rose-400/80 font-medium">
+                {localError || apiError || "Negotiating WebSocket connection..."}
               </p>
             </div>
           </CardContent>
@@ -244,42 +244,42 @@ export function AutoBotTab({ theme = "dark", symbol, onSymbolChange, availableSy
       )}
 
       {isConnected && !isAuthorized && isLoggedIn && !localError && (
-        <Card className="glass neumi-sm rounded-2xl bg-gradient-yellow">
+        <Card className="bg-amber-500/5 border-amber-500/20 backdrop-blur-xl">
           <CardContent className="p-3 flex items-center gap-3">
-            <div className="p-2 rounded-full bg-white/20">
-               <AlertCircle className="w-4 h-4 text-warning shrink-0" />
+            <div className="p-2 rounded-full bg-amber-500/10 border border-amber-500/20">
+               <AlertCircle className="w-4 h-4 text-amber-400 shrink-0" />
             </div>
-            <p className="text-xs text-muted-foreground font-medium uppercase tracking-wide">
-              Authorizing session... Trading available shortly.
+            <p className="text-[10px] sm:text-xs text-amber-400/80 font-medium">
+              Authorizing session... Trading will be available shortly.
             </p>
           </CardContent>
         </Card>
       )}
 
       {isRunning && (
-        <Card className="glass neumi-sm rounded-2xl bg-gradient-green animate-pulse">
+        <Card className="bg-amber-500/5 border-amber-500/20 backdrop-blur-xl animate-pulse">
           <CardContent className="p-4 flex items-center justify-between">
             <div className="flex items-start gap-3">
-              <div className="p-2 rounded-full bg-warning/10 border border-warning/40">
-                <AlertTriangle className="w-4 h-4 text-warning shrink-0" />
+              <div className="p-2 rounded-full bg-amber-500/10 border border-amber-500/20">
+                <AlertTriangle className="w-4 h-4 text-amber-500 shrink-0" />
               </div>
               <div>
-                <p className="text-xs font-bold uppercase tracking-wider text-warning">Trading Active</p>
-                <p className="text-xs mt-2 text-muted-foreground font-medium">Click terminate to stop all operations immediately</p>
+                <p className="text-xs font-black uppercase tracking-widest text-amber-400">Autonomous Cycle Active</p>
+                <p className="text-[10px] sm:text-xs mt-1 text-amber-400/80 font-medium">Click terminate to halt all operations immediately</p>
               </div>
             </div>
             <Button
               onClick={() => setEmergencyStop(true)}
-              className="bg-destructive hover:bg-destructive/90 text-destructive-foreground font-bold uppercase tracking-wider text-xs h-10 px-6"
+              className="bg-rose-600 hover:bg-rose-700 text-white font-black uppercase tracking-widest text-[10px] h-9 px-6 shadow-[0_0_15px_rgba(225,29,72,0.4)]"
             >
-              Stop
+              Terminate
             </Button>
           </CardContent>
         </Card>
       )}
 
       {/* Market Display */}
-      <Card className="glass neumi-sm rounded-2xl bg-gradient-cyan">
+      <Card className="soft-card border-white/5">
         <CardHeader className="p-4 pb-2">
           <CardTitle className="text-xs font-black uppercase tracking-[0.2em] text-slate-500">Live Market Feed</CardTitle>
           <CardDescription className="text-[10px] text-slate-600 uppercase font-medium">Real-time instrumentation</CardDescription>

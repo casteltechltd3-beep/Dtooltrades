@@ -15,7 +15,6 @@ import {
 } from "@/components/ui/dropdown-menu"
 import Link from 'next/link'
 import { TradingHeader } from "@/components/header/trading-header"
-import { ModernHeader } from "@/components/header/modern-header"
 import { DerivHeader } from "@/components/deriv-header"
 import { DigitDistribution } from "@/components/digit-distribution"
 import { SignalsTab } from "@/components/tabs/signals-tab"
@@ -187,21 +186,24 @@ export default function DerivAnalysisApp() {
     >
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full flex-1 flex flex-col relative">
         {!siteConfig?.headerHidden && (
-          <ModernHeader
-            theme={theme}
-            toggleTheme={toggleTheme}
-            currentSymbol={symbol}
-            onSymbolChange={changeSymbol}
-            currentPrice={currentPrice || 0}
-            lastDigit={currentDigit !== null ? currentDigit : undefined}
-            ticks={tickCount}
-            activeTab={activeTab}
-            onTabChange={setActiveTab}
-            onLogout={() => { /* logout handler */ }}
-          />
+          <>
+            <DerivHeader theme={theme} currentSymbol={symbol} onSymbolChange={changeSymbol} />
+            <TradingHeader 
+              theme={theme}
+              toggleTheme={toggleTheme}
+              activeTab={activeTab}
+              handleTabChange={setActiveTab}
+              currentMarket={{ name: symbol, symbol: symbol }}
+              currentPrice={currentPrice || 0}
+              lastDigit={currentDigit !== null ? currentDigit : undefined}
+              ticks={tickCount}
+              handleLogout={() => { /* logout handler */ }}
+              siteConfig={siteConfig}
+            />
+          </>
         )}
 
-        <main className="flex-1 pt-32 md:pt-40 pb-4 px-2 md:px-6 space-y-4 max-w-7xl mx-auto w-full">
+        <main className="flex-1 pt-[240px] sm:pt-[320px] pb-4 px-1 sm:px-4 space-y-2 sm:space-y-4 max-w-7xl mx-auto w-full">
           {connectionStatus === "disconnected" && tickCount === 0 ? (
             <div className="text-center py-12 sm:py-20 md:py-32">
               <h2

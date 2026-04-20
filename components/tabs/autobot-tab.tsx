@@ -538,23 +538,29 @@ export function AutoBotTab({
           return (
             <Card
               key={strategy.id}
-              className={`glass neumi-sm rounded-2xl transition-smooth hover-lift ${isReady && !isRunning
-                ? "bg-gradient-green animate-pulse"
+              className={`transition-all duration-300 ${isReady && !isRunning
+                ? theme === "dark"
+                  ? "bg-gradient-to-br from-secondary/25 to-secondary/10 border-secondary/60 shadow-lg shadow-secondary/20 animate-pulse"
+                  : "bg-gradient-to-br from-green-50 to-emerald-50 border-green-300"
                 : isRunning
-                  ? "bg-gradient-cyan"
-                  : "bg-white/8"
+                  ? theme === "dark"
+                    ? "bg-gradient-to-br from-primary/20 to-primary/10 border-primary/50 shadow-lg shadow-primary/20"
+                    : "bg-blue-50 border-blue-300"
+                  : theme === "dark"
+                    ? "bg-card border-border/50 hover:border-border"
+                    : "bg-white border-gray-200"
                 }`}
             >
-              <CardHeader className="pb-3 border-b border-white/10">
+              <CardHeader className="pb-3 border-b border-border/50">
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex-1">
-                    <CardTitle className="text-base font-bold uppercase tracking-wider bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+                    <CardTitle className={`text-base font-bold uppercase tracking-wider ${theme === "dark" ? "text-primary" : "text-blue-700"}`}>
                       {strategy.name}
                     </CardTitle>
-                    <CardDescription className="text-xs mt-2 font-medium text-muted-foreground">
+                    <CardDescription className={`text-xs mt-2 font-medium ${theme === "dark" ? "text-muted-foreground" : "text-gray-600"}`}>
                       {strategy.description}
                     </CardDescription>
-                    <div className="text-xs mt-2 font-semibold uppercase tracking-wide text-accent">
+                    <div className={`text-xs mt-2 font-semibold uppercase tracking-wide ${theme === "dark" ? "text-accent" : "text-cyan-600"}`}>
                       Ticks: {tickData.length}
                     </div>
                   </div>
@@ -587,16 +593,16 @@ export function AutoBotTab({
               <CardContent className="p-3 sm:p-6 sm:pt-0 space-y-2 sm:space-y-4">
                 {analysis && (
                   <>
-                    <div className="glass-sm neumi-sm rounded-xl p-3 bg-gradient-cyan">
+                    <div className={`p-3 sm:p-4 rounded-md ${theme === "dark" ? "bg-primary/15 border border-primary/40" : "bg-blue-50 border border-blue-200"}`}>
                       <div className="flex justify-between items-center mb-2">
                         <span className="text-xs uppercase font-bold text-muted-foreground tracking-wider">Market Power</span>
-                        <span className="text-sm font-bold text-primary">{(analysis.marketPower || 0).toFixed(1)}%</span>
+                        <span className={`text-sm font-bold ${theme === "dark" ? "text-primary" : "text-blue-700"}`}>{(analysis.marketPower || 0).toFixed(1)}%</span>
                       </div>
-                      <Progress value={analysis.marketPower} className="h-2 bg-white/20" />
+                      <Progress value={analysis.marketPower} className={`h-2 ${theme === "dark" ? "bg-border" : "bg-gray-200"}`} />
                     </div>
 
                     {analysis.powerDistribution && (
-                      <div className="glass-sm neumi-sm rounded-xl p-3 bg-gradient-purple">
+                      <div className={`p-3 sm:p-4 rounded-md ${theme === "dark" ? "bg-accent/15 border border-accent/40" : "bg-cyan-50 border border-cyan-200"}`}>
                         <div className={`text-[10px] sm:text-xs font-semibold mb-1 sm:mb-2 ${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}>Digit Distribution</div>
                         <div className="grid grid-cols-5 gap-1">
                           {Object.entries(analysis.powerDistribution).map(([digit, count]) => {
@@ -625,12 +631,12 @@ export function AutoBotTab({
                       </div>
                     )}
 
-                    <div className="glass-sm neumi-sm rounded-xl p-3 bg-gradient-pink">
-                      <div className="font-semibold mb-1 text-muted-foreground uppercase text-xs tracking-wide">
-                        Signal: <span className={analysis.signal === "TRADE NOW" ? "text-success" : analysis.signal === "WAIT" ? "text-primary" : "text-muted-foreground"}>{analysis.signal}</span>
+                    <div className={`p-2 sm:p-3 rounded-lg text-[10px] sm:text-xs ${theme === "dark" ? "bg-gray-800 border border-gray-700" : "bg-gray-50 border border-gray-200"}`}>
+                      <div className={`font-semibold mb-0.5 sm:mb-1 ${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}>
+                        Signal: <span className={analysis.signal === "TRADE NOW" ? "text-green-400" : analysis.signal === "WAIT" ? "text-blue-400" : "text-gray-400"}>{analysis.signal}</span>
                       </div>
-                      <div className="text-xs text-muted-foreground">Entry: {analysis.entryPoint || "N/A"}</div>
-                      <div className="text-xs text-muted-foreground">Exit: {analysis.exitPoint || "N/A"}</div>
+                      <div className={theme === "dark" ? "text-gray-400" : "text-gray-600"}>Entry: {analysis.entryPoint || "N/A"}</div>
+                      <div className={theme === "dark" ? "text-gray-400" : "text-gray-600"}>Exit: {analysis.exitPoint || "N/A"}</div>
                     </div>
                   </>
                 )}
