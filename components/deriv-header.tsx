@@ -1,25 +1,8 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { DERIV_CONFIG } from "@/lib/deriv-config"
 import { ChevronDown } from "lucide-react"
-
-interface DerivTab {
-  id: string
-  name: string
-  url: string
-}
-
-const tabs: DerivTab[] = [
-  { id: "trader", name: "DTrader", url: `https://app.deriv.com/dtrader?app_id=${DERIV_CONFIG.APP_ID}` },
-  { id: "smarttrader", name: "SmartTrader", url: `https://smarttrader.deriv.com?app_id=${DERIV_CONFIG.APP_ID}` },
-  {
-    id: "copytrading",
-    name: "Copy Trading",
-    url: `https://app.deriv.com/appstore/traders-hub?app_id=${DERIV_CONFIG.APP_ID}`,
-  },
-]
 
 // Popular active symbols
 const POPULAR_SYMBOLS = [
@@ -34,16 +17,12 @@ const POPULAR_SYMBOLS = [
 ]
 
 interface DerivHeaderProps {
-  activeTab: DerivTab
-  setActiveTab: (tab: DerivTab) => void
   theme?: "light" | "dark"
   currentSymbol?: string
   onSymbolChange?: (symbol: string) => void
 }
 
 export function DerivHeader({ 
-  activeTab, 
-  setActiveTab, 
   theme = "dark",
   currentSymbol = "R_100",
   onSymbolChange
@@ -52,33 +31,12 @@ export function DerivHeader({
 
   return (
     <div
-      className={`flex items-center gap-3 px-4 py-3 border-b backdrop-blur-xl transition-all duration-300 ${
+      className={`flex items-center justify-end gap-3 px-4 py-3 border-b backdrop-blur-xl transition-all duration-300 ${
         theme === "dark" 
           ? "bg-gradient-to-r from-[#0a0a0a]/95 to-[#0f0f15]/95 border-white/8" 
           : "bg-white/98 border-gray-200"
         }`}
     >
-      {/* Main Navigation Tabs */}
-      <div className="flex gap-2">
-        {tabs.map((tab) => (
-          <Button
-            key={tab.id}
-            onClick={() => setActiveTab(tab)}
-            className={`px-4 sm:px-6 py-2 rounded-xl font-semibold text-sm transition-all duration-200 whitespace-nowrap ${
-              activeTab.id === tab.id
-                ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-[0_0_20px_rgba(99,102,241,0.4)] hover:shadow-[0_0_30px_rgba(99,102,241,0.6)] hover:scale-105 active:scale-95"
-                : theme === "dark"
-                  ? "bg-slate-800/40 text-slate-300 border border-slate-700/50 hover:bg-slate-700/50 hover:border-indigo-500/30 hover:text-white"
-                  : "bg-gray-100 text-gray-700 hover:bg-gray-200 border border-gray-300"
-              }`}
-          >
-            {tab.name}
-          </Button>
-        ))}
-      </div>
-
-      {/* Divider */}
-      <div className="w-px h-8 bg-white/10 hidden sm:block" />
 
       {/* Symbol Selector */}
       <div className="relative ml-auto">
@@ -126,6 +84,3 @@ export function DerivHeader({
     </div>
   )
 }
-
-export { tabs }
-export type { DerivTab }
