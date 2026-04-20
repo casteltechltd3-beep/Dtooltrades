@@ -26,7 +26,9 @@ export default function AdminLoginPage() {
       const data = await res.json()
 
       if (res.ok) {
-        router.push("/admin")
+        // Session cookie is automatically set by the API
+        // Redirect to dashboard
+        router.push("/admin/dashboard")
       } else {
         setError(data.error || "Login failed")
       }
