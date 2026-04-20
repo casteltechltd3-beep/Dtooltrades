@@ -10,8 +10,8 @@ import { DerivAPIProvider } from "@/lib/deriv-api-context"
 import { ThemeProviderAdvanced } from "@/lib/theme-provider-advanced"
 
 export const metadata: Metadata = {
-  title: "Profit Hub - Trading Bot Simulator & Market Analysis",
-  description: "Real-time Deriv market analysis and trading signals with advanced bot simulator",
+  title: "Expertool - AI Trading Bot & Market Analysis Platform",
+  description: "Advanced AI-powered trading bot with real-time Deriv market analysis, signals, and automated trading strategies",
   generator: "v0.app",
 }
 

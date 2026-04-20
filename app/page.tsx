@@ -193,7 +193,7 @@ export default function DerivAnalysisApp() {
                 </div>
                 <div className="flex flex-col leading-tight">
                   <h1 className={`text-base sm:text-lg font-bold tracking-tight ${theme === "dark" ? "text-white" : "text-slate-900"}`}>
-                    ProfitHub
+                    Expertool
                   </h1>
                   <h2 className={`text-[9px] sm:text-[10px] font-medium tracking-wide opacity-60 uppercase ${theme === "dark" ? "text-gray-400" : "text-gray-500"}`}>
                     Trading
@@ -222,7 +222,7 @@ export default function DerivAnalysisApp() {
         <footer className={`py-6 sm:py-8 border-t ${theme === "dark" ? "bg-[#0a0a0a] border-white/8" : "bg-gray-50 border-gray-200"}`}>
           <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
             <p className={`text-xs sm:text-sm ${theme === "dark" ? "text-gray-500" : "text-gray-600"}`}>
-              © 2026 ProfitHub. Trading involves risk.
+              © 2026 Expertool. Trading involves risk. Powered by Deriv.
             </p>
           </div>
         </footer>
@@ -253,7 +253,7 @@ export default function DerivAnalysisApp() {
                     </div>
                     <div className="flex flex-col leading-tight">
                       <h1 className={`text-base sm:text-lg font-bold tracking-tight ${theme === "dark" ? "text-white" : "text-slate-900"}`}>
-                        ProfitHub
+                        Expertool
                       </h1>
                       <h2 className={`text-[9px] sm:text-[10px] font-medium tracking-wide opacity-60 uppercase ${theme === "dark" ? "text-gray-400" : "text-gray-500"}`}>
                         Trading
@@ -802,7 +802,7 @@ export default function DerivAnalysisApp() {
                     P
                   </div>
                   <span className={`font-semibold tracking-tight ${theme === "dark" ? "text-white" : "text-slate-900"}`}>
-                    ProfitHub
+                    Expertool
                   </span>
                 </div>
                 <p className={`text-xs sm:text-sm ${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}>
@@ -834,7 +834,7 @@ export default function DerivAnalysisApp() {
             </div>
 
             <div className={`mt-6 sm:mt-8 pt-6 border-t flex flex-col sm:flex-row items-center justify-between gap-3 text-xs sm:text-sm ${theme === "dark" ? "border-white/8 text-gray-500" : "border-gray-200 text-gray-500"}`}>
-              <p>© 2026 ProfitHub. All rights reserved.</p>
+              <p>© 2026 Expertool. Powered by Deriv. All rights reserved.</p>
               <p>Trading involves risk. Please read our risk disclaimer.</p>
             </div>
           </div>
