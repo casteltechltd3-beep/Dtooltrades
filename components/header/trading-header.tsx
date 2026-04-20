@@ -29,30 +29,36 @@ const MARKET_SYMBOLS = [
 
 interface HeaderProps {
   activeTab?: string
-  onTabChange?: (tabId: string) => void
+  handleTabChange?: (tabId: string) => void
   onMarketSelect?: (symbol: string) => void
   currentPrice?: number
-  lastDigit?: number
-  ticks?: string
+  lastDigit?: number | undefined
+  ticks?: number | string
   theme?: "light" | "dark"
-  onThemeChange?: (theme: "light" | "dark") => void
+  toggleTheme?: () => void
+  currentMarket?: { name: string; symbol: string }
+  handleLogout?: () => void
+  siteConfig?: any
 }
 
 export function TradingHeader({
   activeTab = "smart-adaptive",
-  onTabChange,
+  handleTabChange,
   onMarketSelect,
   currentPrice = 823809.96,
   lastDigit = 6,
-  ticks = "536 / 1000",
+  ticks = 536,
   theme = "dark",
-  onThemeChange,
+  toggleTheme,
+  currentMarket,
+  handleLogout: onLogout,
+  siteConfig,
 }: HeaderProps) {
   const router = useRouter()
-  const [selectedMarket, setSelectedMarket] = useState("R_100")
+  const [selectedMarket, setSelectedMarket] = useState(currentMarket?.symbol || "R_100")
   const [dropdownOpen, setDropdownOpen] = useState(false)
 
-  const currentMarket = MARKET_SYMBOLS.find((m) => m.symbol === selectedMarket) || MARKET_SYMBOLS[0]
+  const market = currentMarket || MARKET_SYMBOLS.find((m) => m.symbol === selectedMarket) || MARKET_SYMBOLS[0]
 
   const handleMarketSelect = (symbol: string) => {
     setSelectedMarket(symbol)
@@ -60,17 +66,21 @@ export function TradingHeader({
     onMarketSelect?.(symbol)
   }
 
-  const handleTabChange = (tabId: string) => {
-    onTabChange?.(tabId)
+  const handleTabChangeLocal = (tabId: string) => {
+    handleTabChange?.(tabId)
   }
 
-  const handleLogout = async () => {
-    await fetch("/api/admin/logout", { method: "POST" })
-    router.push("/admin/login")
+  const handleLogoutLocal = async () => {
+    if (onLogout) {
+      onLogout()
+    } else {
+      await fetch("/api/admin/logout", { method: "POST" })
+      router.push("/admin/login")
+    }
   }
 
-  const toggleTheme = () => {
-    onThemeChange?.(theme === "dark" ? "light" : "dark")
+  const toggleThemeLocal = () => {
+    toggleTheme?.()
   }
 
   return (
@@ -92,16 +102,16 @@ export function TradingHeader({
         <div className="flex items-center gap-8 flex-1 ml-12">
           <div className="flex flex-col gap-1">
             <p className="text-xs uppercase text-muted-foreground font-semibold">Market</p>
-            <p className="text-sm font-bold text-foreground">{currentMarket.name}</p>
+            <p className="text-sm font-bold text-foreground">{market.name}</p>
           </div>
           <div className="flex flex-col gap-1">
             <p className="text-xs uppercase text-muted-foreground font-semibold">Price</p>
-            <p className="text-sm font-bold text-primary">{currentPrice.toFixed(2)}</p>
+            <p className="text-sm font-bold text-primary">{(currentPrice || 0).toFixed(2)}</p>
           </div>
           <div className="flex flex-col gap-1">
             <p className="text-xs uppercase text-muted-foreground font-semibold">Last Digit</p>
             <div className="px-2.5 py-0.5 rounded-md border border-secondary/50 bg-secondary/10">
-              <p className="text-sm font-bold text-secondary">{lastDigit}</p>
+              <p className="text-sm font-bold text-secondary">{lastDigit !== undefined ? lastDigit : "-"}</p>
             </div>
           </div>
         </div>
@@ -121,7 +131,7 @@ export function TradingHeader({
 
           {/* Theme Toggle */}
           <button
-            onClick={toggleTheme}
+            onClick={toggleThemeLocal}
             className="p-2 rounded-md border border-border text-muted-foreground hover:text-primary hover:bg-primary/10 transition-all"
           >
             {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
@@ -145,7 +155,7 @@ export function TradingHeader({
           {TRADING_TABS.map((tab) => (
             <button
               key={tab.id}
-              onClick={() => handleTabChange(tab.id)}
+              onClick={() => handleTabChangeLocal(tab.id)}
               className={`py-3 px-4 text-sm font-bold whitespace-nowrap transition-all relative uppercase tracking-wide border-b-2 ${
                 activeTab === tab.id
                   ? "text-primary border-b-primary bg-primary/5"
@@ -167,7 +177,7 @@ export function TradingHeader({
             className="flex items-center gap-2 px-3 py-2 rounded-md border border-border text-sm font-bold text-foreground hover:bg-primary/10 hover:border-primary/50 transition-all uppercase tracking-wider"
           >
             <span className="text-xs text-muted-foreground">Symbol</span>
-            <span>{currentMarket.symbol}</span>
+            <span>{market.symbol}</span>
             <ChevronDown
               className={`w-4 h-4 text-muted-foreground transition-transform ${
                 dropdownOpen ? "rotate-180" : ""
@@ -206,7 +216,7 @@ export function TradingHeader({
 
         {/* Logout */}
         <button
-          onClick={handleLogout}
+          onClick={handleLogoutLocal}
           className="p-2 rounded-md border border-border text-muted-foreground hover:text-destructive hover:border-destructive/50 transition-all"
         >
           <LogOut className="w-4 h-4" />
