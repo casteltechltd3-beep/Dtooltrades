@@ -24,24 +24,23 @@ import { DiffersTab } from "@/components/tabs/differs-tab"
 import { StatisticalAnalysis } from "@/components/statistical-analysis"
 import { LastDigitsChart } from "@/components/charts/last-digits-chart"
 import { LastDigitsLineChart } from "@/components/charts/last-digits-line-chart"
-import { AIAnalysisRedesigned } from "@/components/tabs/ai-analysis-redesigned"
+import { AIAnalysisTab } from "@/components/tabs/ai-analysis-tab"
 import { HeritageSuperSignals } from "@/components/heritage-super-signals"
 import { SuperSignalsTab } from "@/components/tabs/super-signals-tab"
 import { LoadingScreen } from "@/components/loading-screen"
 import { DerivAuth } from "@/components/deriv-auth"
-import { AutoBotRedesigned } from "@/components/tabs/autobot-redesigned"
-import { AutomatedRedesigned } from "@/components/tabs/automated-redesigned"
-import { SmartAuto24Redesigned } from "@/components/tabs/smartauto24-redesigned"
+import { AutoBotTab } from "@/components/tabs/autobot-tab"
+import { AutomatedTab } from "@/components/tabs/automated-tab"
+import { SmartAuto24Tab } from "@/components/tabs/smartauto24-tab"
 import { AdvancedSignalsTab } from "@/components/advanced-signals-tab"
 import { useGlobalTradingContext } from "@/hooks/use-global-trading-context"
 import { verifier } from "@/lib/system-verifier"
 import { ResponsiveTabs } from "@/components/responsive-tabs"
 import { MoneyMakerTab } from "@/components/tabs/money-maker-tab"
 import { ToolsInfoTab } from "@/components/tabs/tools-info-tab"
-import { SmartAdaptiveRedesigned } from "@/components/tabs/smart-adaptive-redesigned"
+import SmartAdaptiveTradingTab from "@/components/tabs/smart-adaptive-trading"
 import { RiskDisclaimerModal } from "@/components/modals/risk-disclaimer-modal"
 import { MarketSelector } from "@/components/market-selector"
-import { WelcomeHero } from "@/components/welcome-hero"
 import { FloatingAIScanner } from "@/components/floating-ai-scanner"
 import { ApiTokenModal } from "@/components/api-token-modal"
 import { useDerivAuth } from "@/hooks/use-deriv-auth"
@@ -61,7 +60,7 @@ export default function DerivAnalysisApp() {
   const [initError, setInitError] = useState<string | null>(null)
   const [isDisclaimerOpen, setIsDisclaimerOpen] = useState(false)
   const [showRiskModal, setShowRiskModal] = useState(false)
-  const [showWelcome, setShowWelcome] = useState(true)
+  const [showWelcome, setShowWelcome] = useState(false)
   const [siteConfig, setSiteConfig] = useState<any>(null)
   const [watchedDigits, setWatchedDigits] = useState<number[]>(() => {
     if (typeof window === "undefined") return []
@@ -177,57 +176,7 @@ export default function DerivAnalysisApp() {
     )
   }
 
-  if (showWelcome && tickCount === 0) {
-    return (
-      <div className={`min-h-screen flex flex-col ${theme === "dark" ? "bg-[#0a0a0a]" : "bg-white"}`}>
-        <header className={`fixed top-0 left-0 right-0 z-[100] shrink-0 w-full transition-all duration-500 border-b ${theme === "dark"
-          ? "bg-[#0a0a0a]/95 border-white/8"
-          : "bg-white/98 border-gray-200"
-        } backdrop-blur-xl`}>
-          <div className="mx-auto w-full px-2 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-between h-16 sm:h-20">
-              <div className="flex items-center gap-2 sm:gap-3">
-                <div className={`w-9 h-9 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center font-black text-sm sm:text-base ${theme === "dark" ? "bg-blue-600 text-white" : "bg-blue-600 text-white"}`}>
-                  P
-                </div>
-                <div className="flex flex-col leading-tight">
-                  <h1 className={`text-base sm:text-lg font-bold tracking-tight ${theme === "dark" ? "text-white" : "text-slate-900"}`}>
-                    Expertool
-                  </h1>
-                  <h2 className={`text-[9px] sm:text-[10px] font-medium tracking-wide opacity-60 uppercase ${theme === "dark" ? "text-gray-400" : "text-gray-500"}`}>
-                    Trading
-                  </h2>
-                </div>
-              </div>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={toggleTheme}
-                className={`h-9 w-9 rounded-lg transition-all ${theme === "dark"
-                  ? "bg-white/5 text-yellow-500 hover:bg-white/10"
-                  : "bg-black/5 text-slate-700 hover:bg-black/10"
-                }`}
-              >
-                {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-              </Button>
-            </div>
-          </div>
-        </header>
 
-        <main className="flex-1 pt-16 sm:pt-20">
-          <WelcomeHero theme={theme} onGetStarted={() => setShowWelcome(false)} />
-        </main>
-
-        <footer className={`py-6 sm:py-8 border-t ${theme === "dark" ? "bg-[#0a0a0a] border-white/8" : "bg-gray-50 border-gray-200"}`}>
-          <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
-            <p className={`text-xs sm:text-sm ${theme === "dark" ? "text-gray-500" : "text-gray-600"}`}>
-              © 2026 Expertool. Trading involves risk. Powered by Deriv.
-            </p>
-          </div>
-        </footer>
-      </div>
-    )
-  }
 
   return (
     <div
@@ -738,7 +687,7 @@ export default function DerivAnalysisApp() {
 
               <TabsContent value="ai-analysis" className="mt-0">
                 {analysis && (
-                  <AIAnalysisRedesigned
+                  <AIAnalysisTab
                     analysis={analysis}
                     currentDigit={currentDigit}
                     currentPrice={currentPrice}
@@ -751,15 +700,15 @@ export default function DerivAnalysisApp() {
               </TabsContent>
 
               <TabsContent value="autobot" className="mt-0">
-                <AutoBotRedesigned theme={theme} symbol={symbol} />
+                <AutoBotTab theme={theme} symbol={symbol} />
               </TabsContent>
 
               <TabsContent value="automated" className="mt-0">
-                <AutomatedRedesigned theme={theme} symbol={symbol} />
+                <AutomatedTab theme={theme} symbol={symbol} />
               </TabsContent>
 
               <TabsContent value="smartauto24" className="mt-0">
-                <SmartAuto24Redesigned
+                <SmartAuto24Tab
                   theme={theme}
                   symbol={symbol}
                   onSymbolChange={changeSymbol}
@@ -770,7 +719,7 @@ export default function DerivAnalysisApp() {
               </TabsContent>
 
               <TabsContent value="smart-adaptive" className="mt-0">
-                {analysis && <SmartAdaptiveRedesigned signals={signals} analysis={analysis} symbol={symbol} theme={theme} currentPrice={currentPrice} currentDigit={currentDigit} tickCount={tickCount} />}
+                {analysis && <SmartAdaptiveTradingTab signals={signals} analysis={analysis} symbol={symbol} theme={theme} currentPrice={currentPrice} currentDigit={currentDigit} tickCount={tickCount} />}
               </TabsContent>
 
               <TabsContent value="tools-info" className="mt-0">
