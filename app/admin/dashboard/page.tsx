@@ -7,40 +7,23 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { LogOut, Settings, AlertCircle, HelpCircle } from "lucide-react"
 
-interface AdminSession {
-  authenticated: boolean
-  timestamp: number
-}
-
 export default function AdminDashboard() {
   const router = useRouter()
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    const sessionData = localStorage.getItem("admin_session")
-    if (sessionData) {
-      try {
-        const session: AdminSession = JSON.parse(sessionData)
-        if (session.authenticated) {
-          setIsAuthenticated(true)
-          setIsLoading(false)
-          console.log("[v0] Admin session verified")
-          return
-        }
-      } catch (error) {
-        console.error("[v0] Failed to parse admin session:", error)
-      }
-    }
-
-    // Not authenticated, redirect to login
-    router.push("/admin/login")
-  }, [router])
+    // Middleware will handle auth check via session cookie
+    // If we reach here without cookie, middleware redirected to login
+    setIsAuthenticated(true)
+    setIsLoading(false)
+  }, [])
 
   const handleLogout = () => {
-    localStorage.removeItem("admin_session")
-    console.log("[v0] Admin logged out")
-    router.push("/admin/login")
+    // Clear session cookie by calling logout API
+    fetch("/api/admin/logout", { method: "POST" }).then(() => {
+      router.push("/admin/login")
+    })
   }
 
   if (isLoading) {

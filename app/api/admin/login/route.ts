@@ -22,11 +22,12 @@ export async function POST(request: NextRequest) {
 
         const response = NextResponse.json({ success: true, user: { username: "admin", role: "admin" } })
 
-        // Set a simple session cookie for demo purposes
-        // In a real app, use a JWT and HTTP-only cookie
-        response.cookies.set("admin_session", "true", {
+        // Set secure httpOnly cookie for session management
+        response.cookies.set("admin_session", JSON.stringify({ authenticated: true, timestamp: Date.now() }), {
             path: "/",
-            httpOnly: false, // Set to false so middleware or client can read for UI state if needed, but true is better for security
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "lax",
             maxAge: 60 * 60 * 24, // 1 day
         })
 
