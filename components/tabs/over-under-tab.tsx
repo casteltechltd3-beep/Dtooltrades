@@ -183,41 +183,41 @@ export function OverUnderTab({
     }
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-4 sm:space-y-5">
             <OverUnderAnalyzer ticks={analysisDigits} currentPrice={currentPrice} theme={theme} />
 
             <div
-                className={`rounded-xl p-6 border ${theme === "dark"
+                className={`rounded-lg sm:rounded-xl p-4 sm:p-5 border ${theme === "dark"
                     ? "bg-gradient-to-br from-[#0a0e27] to-[#0f1535] border-blue-500/20"
                     : "bg-white border-gray-200"
                     }`}
             >
-                <h3 className={`text-xl font-bold mb-4 text-center ${theme === "dark" ? "text-white" : "text-gray-900"}`}>
-                    Under (0-4) / Over (5-9) Analysis
+                <h3 className={`text-base sm:text-lg font-bold mb-3 text-center ${theme === "dark" ? "text-white" : "text-gray-900"}`}>
+                    Under/Over Analysis
                 </h3>
 
-                <div className="grid grid-cols-2 gap-6 mb-6">
-                    <div className={`p-4 rounded-lg ${theme === "dark" ? "bg-blue-900/30" : "bg-blue-50"}`}>
-                        <div className={`text-lg font-bold mb-2 ${theme === "dark" ? "text-blue-300" : "text-blue-800"}`}>
-                            Under (0-4)
+                <div className="grid grid-cols-2 gap-2 sm:gap-3 mb-4">
+                    <div className={`p-2.5 sm:p-3 rounded-lg border ${theme === "dark" ? "bg-blue-500/10 border-blue-500/20" : "bg-blue-50 border-blue-100"}`}>
+                        <div className={`text-[10px] sm:text-xs font-bold mb-1 ${theme === "dark" ? "text-blue-300" : "text-blue-800"}`}>
+                            UNDER (0-4)
                         </div>
-                        <div className={`text-4xl font-bold mb-2 ${theme === "dark" ? "text-cyan-400" : "text-cyan-600"}`}>
-                            {underPercent.toFixed(1)}%
+                        <div className={`text-xl sm:text-2xl font-bold mb-1 ${theme === "dark" ? "text-cyan-400" : "text-cyan-600"}`}>
+                            {underPercent.toFixed(0)}%
                         </div>
-                        <div className={`text-sm ${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}>
-                            Highest: Digit {highestUnder.digit} ({highestUnder.count}x)
+                        <div className={`text-[8px] sm:text-[10px] ${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}>
+                            Digit {highestUnder.digit}
                         </div>
                     </div>
 
-                    <div className={`p-4 rounded-lg ${theme === "dark" ? "bg-green-900/30" : "bg-green-50"}`}>
-                        <div className={`text-lg font-bold mb-2 ${theme === "dark" ? "text-green-300" : "text-green-800"}`}>
-                            Over (5-9)
+                    <div className={`p-2.5 sm:p-3 rounded-lg border ${theme === "dark" ? "bg-green-500/10 border-green-500/20" : "bg-green-50 border-green-100"}`}>
+                        <div className={`text-[10px] sm:text-xs font-bold mb-1 ${theme === "dark" ? "text-green-300" : "text-green-800"}`}>
+                            OVER (5-9)
                         </div>
-                        <div className={`text-4xl font-bold mb-2 ${theme === "dark" ? "text-green-400" : "text-green-600"}`}>
-                            {overPercent.toFixed(1)}%
+                        <div className={`text-xl sm:text-2xl font-bold mb-1 ${theme === "dark" ? "text-green-400" : "text-green-600"}`}>
+                            {overPercent.toFixed(0)}%
                         </div>
-                        <div className={`text-sm ${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}>
-                            Highest: Digit {highestOver.digit} ({highestOver.count}x)
+                        <div className={`text-[8px] sm:text-[10px] ${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}>
+                            Digit {highestOver.digit}
                         </div>
                     </div>
                 </div>

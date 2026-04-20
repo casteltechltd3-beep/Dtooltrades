@@ -296,25 +296,25 @@ export function MoneyMakerTab({ theme = "dark", recentDigits = [] }: MoneyMakerT
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-5">
       {/* Header */}
       <div
-        className={`rounded-xl p-4 sm:p-6 border ${
+        className={`rounded-lg sm:rounded-xl p-3 sm:p-4 border ${
           theme === "dark"
             ? "bg-gradient-to-br from-[#0f1629]/80 to-[#1a2235]/80 border-purple-500/20"
             : "bg-white border-gray-200"
         }`}
       >
         <h2
-          className={`text-2xl sm:text-3xl font-bold text-center mb-4 ${theme === "dark" ? "text-white" : "text-gray-900"}`}
+          className={`text-base sm:text-lg font-bold text-center mb-3 ${theme === "dark" ? "text-white" : "text-gray-900"}`}
         >
-          💰 Money Maker - Deep Statistical Analysis
+          Money Maker Analysis
         </h2>
 
         {/* Signal Display */}
-        <div className="flex justify-center mb-6">
+        <div className="flex justify-center mb-0">
           <Badge
-            className={`text-lg px-6 py-3 font-bold animate-pulse ${
+            className={`text-xs sm:text-sm px-3 sm:px-4 py-1.5 sm:py-2 font-bold animate-pulse ${
               signal.status === "RUN NOW"
                 ? "bg-orange-500/30 text-orange-300 border-orange-500/50 shadow-[0_0_20px_rgba(249,115,22,0.6)]"
                 : signal.status === "READY"
@@ -329,32 +329,32 @@ export function MoneyMakerTab({ theme = "dark", recentDigits = [] }: MoneyMakerT
             }`}
           >
             {signal.status}
-            {signal.status === "RUN NOW" && ` - Confidence: ${signal.confidence.toFixed(0)}%`}
-            {signal.status === "TRADING" && ` - ${signal.tradingTicksRemaining} ticks remaining`}
+            {signal.status === "RUN NOW" && ` - ${signal.confidence.toFixed(0)}%`}
+            {signal.status === "TRADING" && ` - ${signal.tradingTicksRemaining}s`}
           </Badge>
         </div>
       </div>
 
       {/* Market Analysis */}
       <div
-        className={`rounded-xl p-4 sm:p-6 border grid grid-cols-1 md:grid-cols-2 gap-6 ${
+        className={`rounded-lg sm:rounded-xl p-3 sm:p-4 border grid grid-cols-2 md:grid-cols-2 gap-2 sm:gap-3 ${
           theme === "dark"
             ? "bg-gradient-to-br from-[#0f1629]/80 to-[#1a2235]/80 border-blue-500/20"
             : "bg-white border-gray-200"
         }`}
       >
         {/* Under Analysis */}
-        <div className="space-y-4">
+        <div className="space-y-2">
           <div className="text-center">
-            <div className="text-5xl sm:text-6xl font-bold text-blue-400 mb-2">{analysis.underPercent.toFixed(1)}%</div>
-            <div className={`text-lg font-semibold ${theme === "dark" ? "text-white" : "text-gray-900"}`}>
-              Under (0-4) {analysis.underIncreasing ? "↗" : "↘"}
+            <div className="text-2xl sm:text-3xl font-bold text-blue-400 mb-1">{analysis.underPercent.toFixed(0)}%</div>
+            <div className={`text-xs sm:text-sm font-semibold ${theme === "dark" ? "text-white" : "text-gray-900"}`}>
+              UNDER (0-4)
             </div>
-            <div className={`text-sm mt-2 ${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}>
-              Strongest Digit: {analysis.strongestUnder}
+            <div className={`text-[9px] sm:text-[10px] mt-1 ${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}>
+              Digit {analysis.strongestUnder}
             </div>
           </div>
-          <div className="h-8 bg-gray-800 rounded-full overflow-hidden">
+          <div className="h-1.5 bg-gray-800 rounded-full overflow-hidden">
             <div
               className="h-full bg-gradient-to-r from-blue-500 to-cyan-400 transition-all duration-300"
               style={{ width: `${analysis.underPercent}%` }}
@@ -363,11 +363,11 @@ export function MoneyMakerTab({ theme = "dark", recentDigits = [] }: MoneyMakerT
 
           {/* Under Predictions */}
           {analysis.underPredictions.length > 0 && (
-            <div className="p-3 bg-blue-500/10 rounded-lg border border-blue-500/30">
-              <p className="text-xs font-semibold text-blue-300 mb-2">Predicted Under Contracts:</p>
-              <div className="flex flex-wrap gap-2">
+            <div className="p-2 bg-blue-500/10 rounded-lg border border-blue-500/30">
+              <p className="text-[8px] font-semibold text-blue-300 mb-1">Under:</p>
+              <div className="flex flex-wrap gap-1">
                 {analysis.underPredictions.map((pred) => (
-                  <Badge key={pred} className="bg-blue-500/30 text-blue-300 border-blue-500/50">
+                  <Badge key={pred} className="bg-blue-500/30 text-blue-300 border-blue-500/50 text-[8px] px-1.5 py-0.5">
                     {pred}
                   </Badge>
                 ))}
@@ -377,17 +377,17 @@ export function MoneyMakerTab({ theme = "dark", recentDigits = [] }: MoneyMakerT
         </div>
 
         {/* Over Analysis */}
-        <div className="space-y-4">
+        <div className="space-y-2">
           <div className="text-center">
-            <div className="text-5xl sm:text-6xl font-bold text-green-400 mb-2">{analysis.overPercent.toFixed(1)}%</div>
-            <div className={`text-lg font-semibold ${theme === "dark" ? "text-white" : "text-gray-900"}`}>
-              Over (5-9) {analysis.overIncreasing ? "↗" : "↘"}
+            <div className="text-2xl sm:text-3xl font-bold text-green-400 mb-1">{analysis.overPercent.toFixed(0)}%</div>
+            <div className={`text-xs sm:text-sm font-semibold ${theme === "dark" ? "text-white" : "text-gray-900"}`}>
+              OVER (5-9)
             </div>
-            <div className={`text-sm mt-2 ${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}>
-              Strongest Digit: {analysis.strongestOver}
+            <div className={`text-[9px] sm:text-[10px] mt-1 ${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}>
+              Digit {analysis.strongestOver}
             </div>
           </div>
-          <div className="h-8 bg-gray-800 rounded-full overflow-hidden">
+          <div className="h-1.5 bg-gray-800 rounded-full overflow-hidden">
             <div
               className="h-full bg-gradient-to-r from-green-500 to-emerald-400 transition-all duration-300"
               style={{ width: `${analysis.overPercent}%` }}

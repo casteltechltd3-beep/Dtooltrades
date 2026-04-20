@@ -172,13 +172,13 @@ export function EvenOddTab({
         </div>
       </div>
 
-      <div className="soft-card p-8 border-white/5">
-        <div className="text-center mb-6">
-          <h2 className="text-2xl font-black uppercase tracking-[0.2em] mb-4 text-white">
-            Even vs Odd Analysis
+      <div className="soft-card p-4 sm:p-6 border-white/5">
+        <div className="text-center mb-4">
+          <h2 className="text-lg sm:text-xl font-black uppercase tracking-widest mb-3 text-white">
+            Even vs Odd
           </h2>
           <Badge
-            className={`text-lg px-4 py-2 ${signalStatus === "TRADE NOW"
+            className={`text-sm px-3 py-1.5 ${signalStatus === "TRADE NOW"
               ? theme === "dark"
                 ? "bg-green-500/20 text-green-400 border-green-500/30 shadow-[0_0_15px_rgba(34,197,94,0.3)]"
                 : "bg-green-100 text-green-700 border-green-300"
@@ -196,7 +196,7 @@ export function EvenOddTab({
         </div>
 
         <div
-          className={`rounded-lg p-4 mb-6 ${signalStatus === "TRADE NOW"
+          className={`rounded-lg p-3 mb-4 text-xs sm:text-sm ${signalStatus === "TRADE NOW"
             ? theme === "dark"
               ? "bg-green-500/10 border border-green-500/30"
               : "bg-green-50 border border-green-200"
@@ -209,164 +209,102 @@ export function EvenOddTab({
                 : "bg-gray-50 border border-gray-200"
             }`}
         >
-          <h3 className="text-xs font-black uppercase tracking-widest mb-2 text-white/70">
-            Signal Recommendation
+          <h3 className="text-[10px] font-black uppercase tracking-widest mb-1 text-white/70">
+            Signal
           </h3>
-          <p className={`text-sm font-medium ${theme === "dark" ? "text-gray-300" : "text-gray-800"}`}>
+          <p className={`font-semibold ${theme === "dark" ? "text-gray-300" : "text-gray-800"}`}>
             {signalMessage}
           </p>
-          <p className={`text-xs mt-2 ${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}>{signalDescription}</p>
+          <p className={`text-[10px] mt-1.5 ${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}>{signalDescription}</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-2 gap-2 sm:gap-3 mb-4">
           <div
-            className={`rounded-lg p-6 border ${theme === "dark"
+            className={`rounded-lg p-3 border ${theme === "dark"
               ? "bg-blue-500/10 border-blue-500/30 shadow-[0_0_15px_rgba(59,130,246,0.2)]"
               : "bg-blue-50 border-blue-200"
               }`}
           >
-            <div className={`flex items-center justify-between mb-3`}>
-              <div className={`text-5xl font-bold ${theme === "dark" ? "text-blue-400" : "text-blue-600"}`}>
-                {evenPercent10.toFixed(1)}%
+            <div className={`flex items-center justify-between mb-2`}>
+              <div className={`text-2xl sm:text-3xl font-bold ${theme === "dark" ? "text-blue-400" : "text-blue-600"}`}>
+                {evenPercent10.toFixed(0)}%
               </div>
               <div className={`text-2xl ${evenIncreasing ? "text-green-500" : "text-red-500"}`}>
                 {evenIncreasing ? "📈" : "📉"}
               </div>
             </div>
-            <div className={`text-sm mb-4 font-semibold ${theme === "dark" ? "text-gray-400" : "text-gray-700"}`}>
-              EVEN (Current Power)
+            <div className={`text-[10px] sm:text-xs mb-2 font-semibold ${theme === "dark" ? "text-gray-400" : "text-gray-700"}`}>
+              EVEN
             </div>
 
-            <div className="space-y-2">
-              <div>
-                <div className={`text-xs mb-1 ${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}>
-                  Last 10 ticks
-                </div>
-                <div className={`w-full rounded-full h-4 ${theme === "dark" ? "bg-gray-700" : "bg-gray-200"}`}>
-                  <div
-                    className="h-4 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 transition-all"
-                    style={{ width: `${Math.min(evenPercent10, 100)}%` }}
-                  />
-                </div>
-              </div>
-              <div>
-                <div className={`text-xs mb-1 ${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}>
-                  Last 50 ticks
-                </div>
+            <div className="space-y-1">
+              <div className="h-1.5 rounded-full bg-gray-700">
                 <div
-                  className={`w-full rounded-full h-3 ${theme === "dark" ? "bg-gray-700" : "bg-gray-200"} opacity-60`}
-                >
-                  <div
-                    className="h-3 rounded-full bg-blue-500 transition-all opacity-70"
-                    style={{ width: `${Math.min(evenPercent50, 100)}%` }}
-                  />
-                </div>
-              </div>
-              <div>
-                <div className={`text-xs mb-1 ${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}>
-                  Last hour (100 ticks)
-                </div>
-                <div
-                  className={`w-full rounded-full h-2 ${theme === "dark" ? "bg-gray-700" : "bg-gray-200"} opacity-40`}
-                >
-                  <div
-                    className="h-2 rounded-full bg-blue-500 transition-all opacity-50"
-                    style={{ width: `${Math.min(evenPercent100, 100)}%` }}
-                  />
-                </div>
+                  className="h-1.5 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 transition-all"
+                  style={{ width: `${Math.min(evenPercent10, 100)}%` }}
+                />
               </div>
             </div>
           </div>
 
           <div
-            className={`rounded-lg p-6 border ${theme === "dark"
+            className={`rounded-lg p-3 border ${theme === "dark"
               ? "bg-pink-500/10 border-pink-500/30 shadow-[0_0_15px_rgba(236,72,153,0.2)]"
               : "bg-pink-50 border-pink-200"
               }`}
           >
-            <div className={`flex items-center justify-between mb-3`}>
-              <div className={`text-5xl font-bold ${theme === "dark" ? "text-pink-400" : "text-pink-600"}`}>
-                {oddPercent10.toFixed(1)}%
+            <div className={`flex items-center justify-between mb-2`}>
+              <div className={`text-2xl sm:text-3xl font-bold ${theme === "dark" ? "text-pink-400" : "text-pink-600"}`}>
+                {oddPercent10.toFixed(0)}%
               </div>
               <div className={`text-2xl ${oddIncreasing ? "text-green-500" : "text-red-500"}`}>
                 {oddIncreasing ? "📈" : "📉"}
               </div>
             </div>
-            <div className={`text-sm mb-4 font-semibold ${theme === "dark" ? "text-gray-400" : "text-gray-700"}`}>
-              ODD (Current Power)
+            <div className={`text-[10px] sm:text-xs mb-2 font-semibold ${theme === "dark" ? "text-gray-400" : "text-gray-700"}`}>
+              ODD
             </div>
 
-            <div className="space-y-2">
-              <div>
-                <div className={`text-xs mb-1 ${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}>
-                  Last 10 ticks
-                </div>
-                <div className={`w-full rounded-full h-4 ${theme === "dark" ? "bg-gray-700" : "bg-gray-200"}`}>
-                  <div
-                    className="h-4 rounded-full bg-gradient-to-r from-pink-500 to-red-500 transition-all"
-                    style={{ width: `${Math.min(oddPercent10, 100)}%` }}
-                  />
-                </div>
-              </div>
-              <div>
-                <div className={`text-xs mb-1 ${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}>
-                  Last 50 ticks
-                </div>
+            <div className="space-y-1">
+              <div className="h-1.5 rounded-full bg-gray-700">
                 <div
-                  className={`w-full rounded-full h-3 ${theme === "dark" ? "bg-gray-700" : "bg-gray-200"} opacity-60`}
-                >
-                  <div
-                    className="h-3 rounded-full bg-pink-500 transition-all opacity-70"
-                    style={{ width: `${Math.min(oddPercent50, 100)}%` }}
-                  />
-                </div>
-              </div>
-              <div>
-                <div className={`text-xs mb-1 ${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}>
-                  Last hour (100 ticks)
-                </div>
-                <div
-                  className={`w-full rounded-full h-2 ${theme === "dark" ? "bg-gray-700" : "bg-gray-200"} opacity-40`}
-                >
-                  <div
-                    className="h-2 rounded-full bg-pink-500 transition-all opacity-50"
-                    style={{ width: `${Math.min(oddPercent100, 100)}%` }}
-                  />
-                </div>
+                  className="h-1.5 rounded-full bg-gradient-to-r from-pink-500 to-red-500 transition-all"
+                  style={{ width: `${Math.min(oddPercent10, 100)}%` }}
+                />
               </div>
             </div>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3">
           <div
-            className={`p-4 rounded-lg text-center ${theme === "dark"
-              ? "bg-purple-500/10 border border-purple-500/30"
-              : "bg-purple-50 border border-purple-200"
+            className={`p-2 sm:p-3 rounded-lg text-center border ${theme === "dark"
+              ? "bg-purple-500/10 border-purple-500/30"
+              : "bg-purple-50 border-purple-200"
               }`}
           >
-            <div className={`text-sm mb-1 font-semibold ${theme === "dark" ? "text-gray-400" : "text-gray-700"}`}>
-              Market Volatility
+            <div className={`text-[10px] mb-1 font-semibold ${theme === "dark" ? "text-gray-400" : "text-gray-700"}`}>
+              Volatility
             </div>
-            <div className={`text-2xl font-bold ${theme === "dark" ? "text-purple-400" : "text-purple-600"}`}>
-              {volatility.toFixed(1)}%
+            <div className={`text-base sm:text-xl font-bold ${theme === "dark" ? "text-purple-400" : "text-purple-600"}`}>
+              {volatility.toFixed(0)}%
             </div>
-            <div className={`text-xs mt-1 ${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}>
-              {volatility > 50 ? "High" : volatility > 25 ? "Medium" : "Low"}
+            <div className={`text-[9px] mt-0.5 ${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}>
+              {volatility > 50 ? "High" : volatility > 25 ? "Med" : "Low"}
             </div>
           </div>
 
           <div
-            className={`p-4 rounded-lg text-center ${theme === "dark" ? "bg-cyan-500/10 border border-cyan-500/30" : "bg-cyan-50 border border-cyan-200"
+            className={`p-2 sm:p-3 rounded-lg text-center border ${theme === "dark" ? "bg-cyan-500/10 border-cyan-500/30" : "bg-cyan-50 border-cyan-200"
               }`}
           >
-            <div className={`text-sm mb-1 font-semibold ${theme === "dark" ? "text-gray-400" : "text-gray-700"}`}>
-              Power Trend
+            <div className={`text-[10px] mb-1 font-semibold ${theme === "dark" ? "text-gray-400" : "text-gray-700"}`}>
+              Trend
             </div>
-            <div className={`text-2xl font-bold ${theme === "dark" ? "text-cyan-400" : "text-cyan-600"}`}>
+            <div className={`text-base sm:text-xl font-bold ${theme === "dark" ? "text-cyan-400" : "text-cyan-600"}`}>
               {powerTrend === "increasing" ? "📈" : powerTrend === "decreasing" ? "📉" : "→"}
             </div>
-            <div className={`text-xs mt-1 capitalize ${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}>
+            <div className={`text-[9px] mt-0.5 capitalize ${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}>
               {powerTrend}
             </div>
           </div>

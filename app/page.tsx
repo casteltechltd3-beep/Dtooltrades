@@ -188,15 +188,19 @@ export default function DerivAnalysisApp() {
           <div className="mx-auto w-full px-2 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-16 sm:h-20">
               <div className="flex items-center gap-2 sm:gap-3">
-                <div className={`w-9 h-9 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center font-black text-sm sm:text-base ${theme === "dark" ? "bg-blue-600 text-white" : "bg-blue-600 text-white"}`}>
-                  P
+                <div className={`relative w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center font-bold text-base sm:text-lg transition-all duration-300 ${theme === "dark" 
+                  ? "bg-gradient-to-br from-blue-500 via-blue-600 to-cyan-600 text-white shadow-lg shadow-blue-500/40" 
+                  : "bg-gradient-to-br from-blue-600 to-cyan-500 text-white shadow-lg shadow-blue-400/40"}`}>
+                  <svg className="w-6 h-6 sm:w-8 sm:h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                  </svg>
                 </div>
                 <div className="flex flex-col leading-tight">
                   <h1 className={`text-base sm:text-lg font-bold tracking-tight ${theme === "dark" ? "text-white" : "text-slate-900"}`}>
-                    ProfitHub
+                    Profit<span className={theme === "dark" ? "text-blue-400" : "text-blue-600"}>Hub</span>
                   </h1>
-                  <h2 className={`text-[9px] sm:text-[10px] font-medium tracking-wide opacity-60 uppercase ${theme === "dark" ? "text-gray-400" : "text-gray-500"}`}>
-                    Trading
+                  <h2 className={`text-[8px] sm:text-[9px] font-semibold tracking-widest opacity-70 uppercase ${theme === "dark" ? "text-gray-300" : "text-gray-600"}`}>
+                    Trading Platform
                   </h2>
                 </div>
               </div>
@@ -245,18 +249,22 @@ export default function DerivAnalysisApp() {
             <div className="mx-auto w-full px-2 sm:px-6 lg:px-8">
               <div className="flex flex-nowrap items-center h-14 xs:h-16 sm:h-20 gap-2 xs:gap-3 sm:gap-6 w-full justify-between overflow-hidden">
 
-                {/* Brand Logo and Text - Clean Modern */}
-                <div className="flex items-center shrink-0 min-w-[120px] xs:min-w-[140px] sm:min-w-[200px]">
-                  <div className="flex items-center gap-1.5 xs:gap-2 sm:gap-3">
-                    <div className={`w-8 h-8 xs:w-9 xs:h-9 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center font-black text-xs xs:text-sm sm:text-base ${theme === "dark" ? "bg-blue-600 text-white" : "bg-blue-600 text-white"}`}>
-                      P
+                {/* Brand Logo and Text - Premium Design */}
+                <div className="flex items-center shrink-0 min-w-[130px] xs:min-w-[150px] sm:min-w-[220px]">
+                  <div className="flex items-center gap-2 xs:gap-2.5 sm:gap-3">
+                    <div className={`relative w-9 h-9 xs:w-10 xs:h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center font-bold text-sm xs:text-base sm:text-lg transition-all duration-300 ${theme === "dark" 
+                      ? "bg-gradient-to-br from-blue-500 via-blue-600 to-cyan-600 text-white shadow-lg shadow-blue-500/40 hover:shadow-blue-500/60" 
+                      : "bg-gradient-to-br from-blue-600 to-cyan-500 text-white shadow-lg shadow-blue-400/40 hover:shadow-blue-400/60"}`}>
+                      <svg className="w-6 h-6 xs:w-7 xs:h-7 sm:w-8 sm:h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                      </svg>
                     </div>
                     <div className="flex flex-col leading-tight">
                       <h1 className={`text-sm xs:text-base sm:text-lg font-bold tracking-tight ${theme === "dark" ? "text-white" : "text-slate-900"}`}>
-                        ProfitHub
+                        Profit<span className={theme === "dark" ? "text-blue-400" : "text-blue-600"}>Hub</span>
                       </h1>
-                      <h2 className={`text-[7px] xs:text-[8px] sm:text-[10px] font-medium tracking-wide opacity-60 uppercase ${theme === "dark" ? "text-gray-400" : "text-gray-500"}`}>
-                        Trading
+                      <h2 className={`text-[7px] xs:text-[8px] sm:text-[9px] font-semibold tracking-widest opacity-70 uppercase letter-spacing-wider ${theme === "dark" ? "text-gray-300" : "text-gray-600"}`}>
+                        Trading Platform
                       </h2>
                     </div>
                   </div>
@@ -345,7 +353,6 @@ export default function DerivAnalysisApp() {
                     <div className="overflow-x-auto no-scrollbar flex">
                       <ResponsiveTabs theme={theme} value={activeTab} onValueChange={setActiveTab}>
                         {[
-                          "dashboard",
                           "smart-adaptive",
                           "smart-analysis",
                           "smartauto24",
@@ -364,7 +371,6 @@ export default function DerivAnalysisApp() {
                           "tools-info",
                         ].filter(tab => !siteConfig?.hiddenTabs?.includes(tab)).map((tab) => {
                           const tabLabels: Record<string, string> = {
-                            "dashboard": "Dashboard",
                             "smart-adaptive": "Smart Adaptive",
                             "smart-analysis": "Smart Analysis",
                             "smartauto24": "SmartAuto24",
@@ -543,10 +549,6 @@ export default function DerivAnalysisApp() {
                   Reconnecting to Deriv API... Some data may be delayed.
                 </div>
               )}
-              <TabsContent value="dashboard" className="mt-0">
-                <DashboardTab theme={theme} />
-              </TabsContent>
-
               <TabsContent value="smart-analysis" className="mt-0 space-y-2 sm:space-y-3 md:space-y-4">
                 <div
                   className={`rounded-lg sm:rounded-xl p-2 sm:p-3 border flex items-center justify-between ${theme === "dark" ? "bg-linear-to-br from-[#0f1629]/80 to-[#1a2235]/80 border-blue-500/20 shadow-[0_0_30px_rgba(59,130,246,0.2)]" : "bg-white border-gray-200 shadow-lg"}`}
