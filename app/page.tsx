@@ -24,21 +24,21 @@ import { DiffersTab } from "@/components/tabs/differs-tab"
 import { StatisticalAnalysis } from "@/components/statistical-analysis"
 import { LastDigitsChart } from "@/components/charts/last-digits-chart"
 import { LastDigitsLineChart } from "@/components/charts/last-digits-line-chart"
-import { AIAnalysisTab } from "@/components/tabs/ai-analysis-tab"
+import { AIAnalysisRedesigned } from "@/components/tabs/ai-analysis-redesigned"
 import { HeritageSuperSignals } from "@/components/heritage-super-signals"
 import { SuperSignalsTab } from "@/components/tabs/super-signals-tab"
 import { LoadingScreen } from "@/components/loading-screen"
 import { DerivAuth } from "@/components/deriv-auth"
-import { AutoBotTab } from "@/components/tabs/autobot-tab"
-import { AutomatedTab } from "@/components/tabs/automated-tab"
-import { SmartAuto24Tab } from "@/components/tabs/smartauto24-tab"
+import { AutoBotRedesigned } from "@/components/tabs/autobot-redesigned"
+import { AutomatedRedesigned } from "@/components/tabs/automated-redesigned"
+import { SmartAuto24Redesigned } from "@/components/tabs/smartauto24-redesigned"
 import { AdvancedSignalsTab } from "@/components/advanced-signals-tab"
 import { useGlobalTradingContext } from "@/hooks/use-global-trading-context"
 import { verifier } from "@/lib/system-verifier"
 import { ResponsiveTabs } from "@/components/responsive-tabs"
 import { MoneyMakerTab } from "@/components/tabs/money-maker-tab"
 import { ToolsInfoTab } from "@/components/tabs/tools-info-tab"
-import SmartAdaptiveTradingTab from "@/components/tabs/smart-adaptive-trading"
+import { SmartAdaptiveRedesigned } from "@/components/tabs/smart-adaptive-redesigned"
 import { RiskDisclaimerModal } from "@/components/modals/risk-disclaimer-modal"
 import { MarketSelector } from "@/components/market-selector"
 import { WelcomeHero } from "@/components/welcome-hero"
@@ -738,7 +738,7 @@ export default function DerivAnalysisApp() {
 
               <TabsContent value="ai-analysis" className="mt-0">
                 {analysis && (
-                  <AIAnalysisTab
+                  <AIAnalysisRedesigned
                     analysis={analysis}
                     currentDigit={currentDigit}
                     currentPrice={currentPrice}
@@ -751,15 +751,15 @@ export default function DerivAnalysisApp() {
               </TabsContent>
 
               <TabsContent value="autobot" className="mt-0">
-                <AutoBotTab theme={theme} symbol={symbol} />
+                <AutoBotRedesigned theme={theme} symbol={symbol} />
               </TabsContent>
 
               <TabsContent value="automated" className="mt-0">
-                <AutomatedTab theme={theme} symbol={symbol} />
+                <AutomatedRedesigned theme={theme} symbol={symbol} />
               </TabsContent>
 
               <TabsContent value="smartauto24" className="mt-0">
-                <SmartAuto24Tab
+                <SmartAuto24Redesigned
                   theme={theme}
                   symbol={symbol}
                   onSymbolChange={changeSymbol}
@@ -770,7 +770,7 @@ export default function DerivAnalysisApp() {
               </TabsContent>
 
               <TabsContent value="smart-adaptive" className="mt-0">
-                {analysis && <SmartAdaptiveTradingTab signals={signals} analysis={analysis} symbol={symbol} theme={theme} currentPrice={currentPrice} currentDigit={currentDigit} tickCount={tickCount} />}
+                {analysis && <SmartAdaptiveRedesigned signals={signals} analysis={analysis} symbol={symbol} theme={theme} currentPrice={currentPrice} currentDigit={currentDigit} tickCount={tickCount} />}
               </TabsContent>
 
               <TabsContent value="tools-info" className="mt-0">
