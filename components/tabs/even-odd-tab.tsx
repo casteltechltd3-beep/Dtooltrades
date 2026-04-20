@@ -172,22 +172,22 @@ export function EvenOddTab({
         </div>
       </div>
 
-      <div className="soft-card p-4 sm:p-6 border-white/5">
-        <div className="text-center mb-4">
-          <h2 className="text-lg sm:text-xl font-black uppercase tracking-widest mb-3 text-white">
-            Even vs Odd
+      <div className="soft-card p-6 sm:p-8 border-white/5">
+        <div className="text-center mb-6">
+          <h2 className="text-xl sm:text-2xl font-black uppercase tracking-widest mb-3 text-white">
+            Even vs Odd Analysis (Selected: 10)
           </h2>
           <Badge
-            className={`text-sm px-3 py-1.5 ${signalStatus === "TRADE NOW"
+            className={`text-sm px-4 py-1.5 font-semibold ${signalStatus === "TRADE NOW"
               ? theme === "dark"
-                ? "bg-green-500/20 text-green-400 border-green-500/30 shadow-[0_0_15px_rgba(34,197,94,0.3)]"
+                ? "bg-green-500/30 text-green-300 border border-green-500/50 shadow-[0_0_15px_rgba(34,197,94,0.3)]"
                 : "bg-green-100 text-green-700 border-green-300"
               : signalStatus === "WAIT"
                 ? theme === "dark"
-                  ? "bg-blue-500/20 text-blue-300 border-blue-500/30 shadow-[0_0_15px_rgba(59,130,246,0.3)]"
+                  ? "bg-blue-500/30 text-blue-300 border border-blue-500/50 shadow-[0_0_15px_rgba(59,130,246,0.3)]"
                   : "bg-blue-100 text-blue-700 border-blue-300"
                 : theme === "dark"
-                  ? "bg-gray-500/20 text-gray-400 border-gray-500/30"
+                  ? "bg-gray-500/30 text-gray-300 border border-gray-500/50"
                   : "bg-gray-100 text-gray-600 border-gray-300"
               }`}
           >
@@ -195,157 +195,57 @@ export function EvenOddTab({
           </Badge>
         </div>
 
-        <div
-          className={`rounded-lg p-3 mb-4 text-xs sm:text-sm ${signalStatus === "TRADE NOW"
-            ? theme === "dark"
-              ? "bg-green-500/10 border border-green-500/30"
-              : "bg-green-50 border border-green-200"
-            : signalStatus === "WAIT"
-              ? theme === "dark"
-                ? "bg-blue-500/10 border border-blue-500/30"
-                : "bg-blue-50 border border-blue-200"
-              : theme === "dark"
-                ? "bg-gray-500/10 border border-gray-500/30"
-                : "bg-gray-50 border border-gray-200"
-            }`}
-        >
-          <h3 className="text-[10px] font-black uppercase tracking-widest mb-1 text-white/70">
-            Signal
-          </h3>
-          <p className={`font-semibold ${theme === "dark" ? "text-gray-300" : "text-gray-800"}`}>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 mb-8">
+          {/* Even Card */}
+          <div className="flex flex-col items-center">
+            <div className={`text-4xl sm:text-5xl font-black mb-2 ${theme === "dark" ? "text-blue-400" : "text-blue-600"}`}>
+              {evenPercent10.toFixed(1)}%
+            </div>
+            <div className={`text-sm font-semibold mb-3 ${theme === "dark" ? "text-gray-300" : "text-gray-700"}`}>
+              Even (0, 2, 4, 6, 8) {evenIncreasing ? "↗" : evenIncreasing === false ? "↘" : "→"}
+            </div>
+            <div className={`w-full max-w-xs rounded-full h-3 mb-3 ${theme === "dark" ? "bg-gray-700" : "bg-gray-200"}`}>
+              <div
+                className="h-3 rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 transition-all"
+                style={{ width: `${Math.min(evenPercent10, 100)}%` }}
+              />
+            </div>
+            <div className={`text-xs font-medium ${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}>
+              Count: {recentDigits.filter((d) => d % 2 === 0).length} | Trend: {evenIncreasing ? "Increasing" : "Decreasing"}
+            </div>
+          </div>
+
+          {/* Odd Card */}
+          <div className="flex flex-col items-center">
+            <div className={`text-4xl sm:text-5xl font-black mb-2 ${theme === "dark" ? "text-pink-400" : "text-pink-600"}`}>
+              {oddPercent10.toFixed(1)}%
+            </div>
+            <div className={`text-sm font-semibold mb-3 ${theme === "dark" ? "text-gray-300" : "text-gray-700"}`}>
+              Odd (1, 3, 5, 7, 9) {oddIncreasing ? "↗" : oddIncreasing === false ? "↘" : "→"}
+            </div>
+            <div className={`w-full max-w-xs rounded-full h-3 mb-3 ${theme === "dark" ? "bg-gray-700" : "bg-gray-200"}`}>
+              <div
+                className="h-3 rounded-full bg-gradient-to-r from-pink-500 to-red-400 transition-all"
+                style={{ width: `${Math.min(oddPercent10, 100)}%` }}
+              />
+            </div>
+            <div className={`text-xs font-medium ${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}>
+              Count: {recentDigits.filter((d) => d % 2 === 1).length} | Trend: {oddIncreasing ? "Increasing" : "Decreasing"}
+            </div>
+          </div>
+        </div>
+
+        {/* Entry Conditions */}
+        <div className="text-center border-t border-white/10 pt-6">
+          <h4 className={`text-sm font-bold mb-2 ${theme === "dark" ? "text-gray-400" : "text-gray-700"}`}>
+            Entry Conditions:
+          </h4>
+          <p className={`text-sm ${theme === "dark" ? "text-cyan-300" : "text-cyan-600"}`}>
             {signalMessage}
           </p>
-          <p className={`text-[10px] mt-1.5 ${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}>{signalDescription}</p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-2 gap-2 sm:gap-3 mb-4">
-          <div
-            className={`rounded-lg p-3 border ${theme === "dark"
-              ? "bg-blue-500/10 border-blue-500/30 shadow-[0_0_15px_rgba(59,130,246,0.2)]"
-              : "bg-blue-50 border-blue-200"
-              }`}
-          >
-            <div className={`flex items-center justify-between mb-2`}>
-              <div className={`text-2xl sm:text-3xl font-bold ${theme === "dark" ? "text-blue-400" : "text-blue-600"}`}>
-                {evenPercent10.toFixed(0)}%
-              </div>
-              <div className={`text-2xl ${evenIncreasing ? "text-green-500" : "text-red-500"}`}>
-                {evenIncreasing ? "📈" : "📉"}
-              </div>
-            </div>
-            <div className={`text-[10px] sm:text-xs mb-2 font-semibold ${theme === "dark" ? "text-gray-400" : "text-gray-700"}`}>
-              EVEN
-            </div>
 
-            <div className="space-y-1">
-              <div className="h-1.5 rounded-full bg-gray-700">
-                <div
-                  className="h-1.5 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 transition-all"
-                  style={{ width: `${Math.min(evenPercent10, 100)}%` }}
-                />
-              </div>
-            </div>
-          </div>
-
-          <div
-            className={`rounded-lg p-3 border ${theme === "dark"
-              ? "bg-pink-500/10 border-pink-500/30 shadow-[0_0_15px_rgba(236,72,153,0.2)]"
-              : "bg-pink-50 border-pink-200"
-              }`}
-          >
-            <div className={`flex items-center justify-between mb-2`}>
-              <div className={`text-2xl sm:text-3xl font-bold ${theme === "dark" ? "text-pink-400" : "text-pink-600"}`}>
-                {oddPercent10.toFixed(0)}%
-              </div>
-              <div className={`text-2xl ${oddIncreasing ? "text-green-500" : "text-red-500"}`}>
-                {oddIncreasing ? "📈" : "📉"}
-              </div>
-            </div>
-            <div className={`text-[10px] sm:text-xs mb-2 font-semibold ${theme === "dark" ? "text-gray-400" : "text-gray-700"}`}>
-              ODD
-            </div>
-
-            <div className="space-y-1">
-              <div className="h-1.5 rounded-full bg-gray-700">
-                <div
-                  className="h-1.5 rounded-full bg-gradient-to-r from-pink-500 to-red-500 transition-all"
-                  style={{ width: `${Math.min(oddPercent10, 100)}%` }}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3">
-          <div
-            className={`p-2 sm:p-3 rounded-lg text-center border ${theme === "dark"
-              ? "bg-purple-500/10 border-purple-500/30"
-              : "bg-purple-50 border-purple-200"
-              }`}
-          >
-            <div className={`text-[10px] mb-1 font-semibold ${theme === "dark" ? "text-gray-400" : "text-gray-700"}`}>
-              Volatility
-            </div>
-            <div className={`text-base sm:text-xl font-bold ${theme === "dark" ? "text-purple-400" : "text-purple-600"}`}>
-              {volatility.toFixed(0)}%
-            </div>
-            <div className={`text-[9px] mt-0.5 ${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}>
-              {volatility > 50 ? "High" : volatility > 25 ? "Med" : "Low"}
-            </div>
-          </div>
-
-          <div
-            className={`p-2 sm:p-3 rounded-lg text-center border ${theme === "dark" ? "bg-cyan-500/10 border-cyan-500/30" : "bg-cyan-50 border-cyan-200"
-              }`}
-          >
-            <div className={`text-[10px] mb-1 font-semibold ${theme === "dark" ? "text-gray-400" : "text-gray-700"}`}>
-              Trend
-            </div>
-            <div className={`text-base sm:text-xl font-bold ${theme === "dark" ? "text-cyan-400" : "text-cyan-600"}`}>
-              {powerTrend === "increasing" ? "📈" : powerTrend === "decreasing" ? "📉" : "→"}
-            </div>
-            <div className={`text-[9px] mt-0.5 capitalize ${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}>
-              {powerTrend}
-            </div>
-          </div>
-
-          <div
-            className={`p-4 rounded-lg text-center ${theme === "dark" ? "bg-green-500/10 border border-green-500/30" : "bg-green-50 border border-green-200"
-              }`}
-          >
-            <div className={`text-sm mb-1 font-semibold ${theme === "dark" ? "text-gray-400" : "text-gray-700"}`}>
-              1H Change
-            </div>
-            <div className={`text-2xl font-bold ${theme === "dark" ? "text-green-400" : "text-green-600"}`}>
-              {hourTrendChange.toFixed(1)}%
-            </div>
-            <div className={`text-xs mt-1 ${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}>Last 100 ticks</div>
-          </div>
-
-          <div
-            className={`p-4 rounded-lg text-center ${theme === "dark"
-              ? "bg-orange-500/10 border border-orange-500/30"
-              : "bg-orange-50 border border-orange-200"
-              }`}
-          >
-            <div className={`text-sm mb-1 font-semibold ${theme === "dark" ? "text-gray-400" : "text-gray-700"}`}>
-              Recent Change
-            </div>
-            <div className={`text-2xl font-bold ${theme === "dark" ? "text-orange-400" : "text-orange-600"}`}>
-              {recent15MinChange.toFixed(1)}%
-            </div>
-            <div className={`text-xs mt-1 ${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}>Last 10 ticks</div>
-          </div>
-        </div>
-
-        {signalStatus === "TRADE NOW" ? (
-          <Button
-            size="lg"
-            className="w-full bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white px-8 py-6 text-xl font-bold shadow-[0_0_30px_rgba(34,197,94,0.7)] animate-pulse mb-4"
-          >
-            TRADE {dominantType} NOW - {maxCurrent.toFixed(1)}%
-          </Button>
-        ) : null}
       </div>
 
       {recentDigits.length > 0 && (
