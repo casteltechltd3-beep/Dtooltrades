@@ -40,7 +40,7 @@ export function FoxLoader({ progress = 0, status = "Initializing..." }: FoxLoade
 
       <div className="text-center">
         <h3 className="text-xl font-bold bg-linear-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-          Profit Hub
+          Expertool
         </h3>
         <p className="text-xs text-slate-400 font-medium animate-pulse">{status}</p>
       </div>

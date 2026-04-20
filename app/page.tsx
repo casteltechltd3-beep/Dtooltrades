@@ -45,7 +45,6 @@ import { WelcomeHero } from "@/components/welcome-hero"
 import { FloatingAIScanner } from "@/components/floating-ai-scanner"
 import { ApiTokenModal } from "@/components/api-token-modal"
 import { useDerivAuth } from "@/hooks/use-deriv-auth"
-import { DashboardTab } from "@/components/tabs/dashboard-tab"
 import {
   Dialog,
   DialogContent,
@@ -193,7 +192,7 @@ export default function DerivAnalysisApp() {
                 </div>
                 <div className="flex flex-col leading-tight">
                   <h1 className={`text-base sm:text-lg font-bold tracking-tight ${theme === "dark" ? "text-white" : "text-slate-900"}`}>
-                    ProfitHub
+                    Expertool
                   </h1>
                   <h2 className={`text-[9px] sm:text-[10px] font-medium tracking-wide opacity-60 uppercase ${theme === "dark" ? "text-gray-400" : "text-gray-500"}`}>
                     Trading
@@ -222,7 +221,7 @@ export default function DerivAnalysisApp() {
         <footer className={`py-6 sm:py-8 border-t ${theme === "dark" ? "bg-[#0a0a0a] border-white/8" : "bg-gray-50 border-gray-200"}`}>
           <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
             <p className={`text-xs sm:text-sm ${theme === "dark" ? "text-gray-500" : "text-gray-600"}`}>
-              © 2026 ProfitHub. Trading involves risk.
+              © 2026 Expertool. Trading involves risk. Powered by Deriv.
             </p>
           </div>
         </footer>
@@ -253,7 +252,7 @@ export default function DerivAnalysisApp() {
                     </div>
                     <div className="flex flex-col leading-tight">
                       <h1 className={`text-base sm:text-lg font-bold tracking-tight ${theme === "dark" ? "text-white" : "text-slate-900"}`}>
-                        ProfitHub
+                        Expertool
                       </h1>
                       <h2 className={`text-[9px] sm:text-[10px] font-medium tracking-wide opacity-60 uppercase ${theme === "dark" ? "text-gray-400" : "text-gray-500"}`}>
                         Trading
@@ -345,7 +344,6 @@ export default function DerivAnalysisApp() {
                     <div className="overflow-x-auto no-scrollbar flex">
                       <ResponsiveTabs theme={theme} value={activeTab} onValueChange={setActiveTab}>
                         {[
-                          "dashboard",
                           "smart-adaptive",
                           "smart-analysis",
                           "smartauto24",
@@ -364,7 +362,6 @@ export default function DerivAnalysisApp() {
                           "tools-info",
                         ].filter(tab => !siteConfig?.hiddenTabs?.includes(tab)).map((tab) => {
                           const tabLabels: Record<string, string> = {
-                            "dashboard": "Dashboard",
                             "smart-adaptive": "Smart Adaptive",
                             "smart-analysis": "Smart Analysis",
                             "smartauto24": "SmartAuto24",
@@ -543,9 +540,7 @@ export default function DerivAnalysisApp() {
                   Reconnecting to Deriv API... Some data may be delayed.
                 </div>
               )}
-              <TabsContent value="dashboard" className="mt-0">
-                <DashboardTab theme={theme} />
-              </TabsContent>
+
 
               <TabsContent value="smart-analysis" className="mt-0 space-y-2 sm:space-y-3 md:space-y-4">
                 <div
@@ -802,7 +797,7 @@ export default function DerivAnalysisApp() {
                     P
                   </div>
                   <span className={`font-semibold tracking-tight ${theme === "dark" ? "text-white" : "text-slate-900"}`}>
-                    ProfitHub
+                    Expertool
                   </span>
                 </div>
                 <p className={`text-xs sm:text-sm ${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}>
@@ -834,7 +829,7 @@ export default function DerivAnalysisApp() {
             </div>
 
             <div className={`mt-6 sm:mt-8 pt-6 border-t flex flex-col sm:flex-row items-center justify-between gap-3 text-xs sm:text-sm ${theme === "dark" ? "border-white/8 text-gray-500" : "border-gray-200 text-gray-500"}`}>
-              <p>© 2026 ProfitHub. All rights reserved.</p>
+              <p>© 2026 Expertool. Powered by Deriv. All rights reserved.</p>
               <p>Trading involves risk. Please read our risk disclaimer.</p>
             </div>
           </div>
