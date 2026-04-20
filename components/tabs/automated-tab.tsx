@@ -228,9 +228,9 @@ export function AutoBotTab({ theme = "dark", symbol, onSymbolChange, availableSy
     <div className="space-y-3 sm:space-y-6">
       {/* Connection Status Alert - only show if no data and really disconnected */}
       {(apiError || localError || (!isConnected && marketPrice === 0)) && (
-        <Card className="bg-destructive/10 border-destructive/40 animate-in fade-in slide-in-from-top-2 duration-500">
+        <Card className="glass neumi-sm rounded-2xl bg-gradient-orange animate-in fade-in slide-in-from-top-2 duration-500">
           <CardContent className="p-4 flex items-start gap-3">
-            <div className="p-2 rounded-full bg-destructive/10 border border-destructive/40">
+            <div className="p-2 rounded-full bg-white/20">
                <AlertCircle className="w-4 h-4 text-destructive shrink-0" />
             </div>
             <div>
@@ -243,11 +243,10 @@ export function AutoBotTab({ theme = "dark", symbol, onSymbolChange, availableSy
         </Card>
       )}
 
-      {/* Authorization pending alert - show when connected but not yet authorized */}
       {isConnected && !isAuthorized && isLoggedIn && !localError && (
-        <Card className="bg-warning/10 border-warning/40">
+        <Card className="glass neumi-sm rounded-2xl bg-gradient-yellow">
           <CardContent className="p-3 flex items-center gap-3">
-            <div className="p-2 rounded-full bg-warning/10 border border-warning/40">
+            <div className="p-2 rounded-full bg-white/20">
                <AlertCircle className="w-4 h-4 text-warning shrink-0" />
             </div>
             <p className="text-xs text-muted-foreground font-medium uppercase tracking-wide">
@@ -257,9 +256,8 @@ export function AutoBotTab({ theme = "dark", symbol, onSymbolChange, availableSy
         </Card>
       )}
 
-      {/* Emergency Stop Alert */}
       {isRunning && (
-        <Card className="bg-warning/10 border-warning/40 animate-pulse">
+        <Card className="glass neumi-sm rounded-2xl bg-gradient-green animate-pulse">
           <CardContent className="p-4 flex items-center justify-between">
             <div className="flex items-start gap-3">
               <div className="p-2 rounded-full bg-warning/10 border border-warning/40">
@@ -281,7 +279,7 @@ export function AutoBotTab({ theme = "dark", symbol, onSymbolChange, availableSy
       )}
 
       {/* Market Display */}
-      <Card className="soft-card border-white/5">
+      <Card className="glass neumi-sm rounded-2xl bg-gradient-cyan">
         <CardHeader className="p-4 pb-2">
           <CardTitle className="text-xs font-black uppercase tracking-[0.2em] text-slate-500">Live Market Feed</CardTitle>
           <CardDescription className="text-[10px] text-slate-600 uppercase font-medium">Real-time instrumentation</CardDescription>
