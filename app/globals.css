@@ -5,83 +5,71 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* Professional Trading Platform Color System */
-  --background: oklch(0.03 0.01 240);
-  /* Deep Midnight Blue */
-  --foreground: oklch(0.95 0.01 0);
-  /* Near White */
-  --card: oklch(0.09 0.02 240 / 0.8);
-  --card-foreground: oklch(0.95 0.01 0);
-  --popover: oklch(0.12 0.03 240);
-  --popover-foreground: oklch(0.95 0.01 0);
-  --primary: oklch(0.58 0.22 260);
-  /* Vibrant Cyan-Blue */
+  /* Revamped Premium Color Tokens */
+  --background: oklch(0.04 0.01 240);
+  /* Deeper Midnight */
+  --foreground: oklch(0.98 0 0);
+  --card: oklch(0.08 0.02 240 / 0.5);
+  --card-foreground: oklch(0.98 0 0);
+  --popover: oklch(0.1 0.02 240);
+  --popover-foreground: oklch(0.98 0 0);
+  --primary: oklch(0.55 0.25 260);
+  /* Vibrant Indigo-Purple */
   --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.65 0.18 120);
-  /* Emerald Green */
-  --secondary-foreground: oklch(1 0 0);
-  --muted: oklch(0.18 0.02 240);
-  --muted-foreground: oklch(0.65 0.01 240);
-  --accent: oklch(0.55 0.2 180);
-  /* Cyan Accent */
+  --secondary: oklch(0.7 0.15 70);
+  /* Soft Gold */
+  --secondary-foreground: oklch(0.2 0.05 70);
+  --muted: oklch(0.2 0.03 240);
+  --muted-foreground: oklch(0.7 0.02 240);
+  --accent: oklch(0.6 0.2 300);
+  /* Deep Purple Accent */
   --accent-foreground: oklch(1 0 0);
-  --destructive: oklch(0.58 0.22 25);
-  /* Rose Red */
+  --destructive: oklch(0.6 0.25 25);
   --destructive-foreground: oklch(1 0 0);
-  --warning: oklch(0.63 0.18 60);
-  /* Amber */
-  --warning-foreground: oklch(0.12 0.02 60);
-  --border: oklch(0.15 0.03 240);
-  --input: oklch(0.12 0.03 240);
-  --ring: oklch(0.58 0.22 260);
-  --chart-1: oklch(0.58 0.22 260);
-  /* Cyan */
-  --chart-2: oklch(0.65 0.18 120);
-  /* Green */
-  --chart-3: oklch(0.63 0.18 60);
-  /* Amber */
-  --chart-4: oklch(0.58 0.22 25);
-  /* Rose */
-  --chart-5: oklch(0.55 0.2 280);
-  /* Purple */
-  --radius: 0.5rem;
-  --sidebar: oklch(0.09 0.02 240);
-  --sidebar-foreground: oklch(0.95 0.01 0);
-  --sidebar-primary: oklch(0.58 0.22 260);
+  --border: oklch(0.2 0.04 240);
+  --input: oklch(0.15 0.04 240);
+  --ring: oklch(0.6 0.2 250);
+  --chart-1: oklch(0.6 0.2 250);
+  --chart-2: oklch(0.7 0.15 70);
+  --chart-3: oklch(0.6 0.2 300);
+  --chart-4: oklch(0.65 0.2 150);
+  --chart-5: oklch(0.75 0.15 40);
+  --radius: 0.75rem;
+  --sidebar: oklch(0.08 0.02 240);
+  --sidebar-foreground: oklch(0.98 0 0);
+  --sidebar-primary: oklch(0.6 0.2 250);
   --sidebar-primary-foreground: oklch(1 0 0);
-  --sidebar-accent: oklch(0.15 0.03 240);
-  --sidebar-accent-foreground: oklch(0.95 0.01 0);
-  --sidebar-border: oklch(0.15 0.03 240);
-  --sidebar-ring: oklch(0.58 0.22 260);
+  --sidebar-accent: oklch(0.2 0.03 240);
+  --sidebar-accent-foreground: oklch(0.98 0 0);
+  --sidebar-border: oklch(0.2 0.04 240);
+  --sidebar-ring: oklch(0.6 0.2 250);
 }
 
 .dark {
-  --background: oklch(0.03 0.01 240);
-  --foreground: oklch(0.95 0.01 0);
-  --card: oklch(0.09 0.02 240);
-  --card-foreground: oklch(0.95 0.01 0);
-  --popover: oklch(0.12 0.03 240);
-  --popover-foreground: oklch(0.95 0.01 0);
-  --primary: oklch(0.58 0.22 260);
+  --background: oklch(0.05 0.01 240);
+  --foreground: oklch(0.98 0 0);
+  --card: oklch(0.1 0.02 240);
+  --card-foreground: oklch(0.98 0 0);
+  --popover: oklch(0.1 0.02 240);
+  --popover-foreground: oklch(0.98 0 0);
+  --primary: oklch(0.6 0.2 250);
   --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.65 0.18 120);
-  --secondary-foreground: oklch(1 0 0);
-  --muted: oklch(0.18 0.02 240);
-  --muted-foreground: oklch(0.65 0.01 240);
-  --accent: oklch(0.55 0.2 180);
+  --secondary: oklch(0.7 0.15 70);
+  --secondary-foreground: oklch(0.2 0.05 70);
+  --muted: oklch(0.2 0.03 240);
+  --muted-foreground: oklch(0.7 0.02 240);
+  --accent: oklch(0.6 0.2 300);
   --accent-foreground: oklch(1 0 0);
-  --destructive: oklch(0.58 0.22 25);
+  --destructive: oklch(0.6 0.25 25);
   --destructive-foreground: oklch(1 0 0);
-  --warning: oklch(0.63 0.18 60);
-  --warning-foreground: oklch(0.12 0.02 60);
-  --border: oklch(0.15 0.03 240);
-  --input: oklch(0.12 0.03 240);
-  --ring: oklch(0.58 0.22 260);
-  --chart-1: oklch(0.58 0.22 260);
-  --chart-2: oklch(0.65 0.18 120);
-  --chart-3: oklch(0.63 0.18 60);
-  --chart-4: oklch(0.58 0.22 25);
-  --chart-5: oklch(0.55 0.2 280);
+  --border: oklch(0.2 0.04 240);
+  --input: oklch(0.15 0.04 240);
+  --ring: oklch(0.5 0.2 250);
+  --chart-1: oklch(0.6 0.2 250);
+  --chart-2: oklch(0.7 0.15 70);
+  --chart-3: oklch(0.6 0.2 300);
+  --chart-4: oklch(0.65 0.2 150);
+  --chart-5: oklch(0.75 0.15 40);
 }
 
 @theme inline {
@@ -240,4 +228,4 @@
   .animate-glow-blue { animation: glowBlue 2s ease-in-out infinite; }
   .animate-liquid-fill { animation: liquidFill 3s ease-in-out forwards; }
   .card-glow-animate { animation: cardGlowPulse 4s ease-in-out infinite; }
-}
+}

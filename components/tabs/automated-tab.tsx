@@ -243,6 +243,7 @@ export function AutoBotTab({ theme = "dark", symbol, onSymbolChange, availableSy
         </Card>
       )}
 
+      {/* Authorization pending alert - show when connected but not yet authorized */}
       {isConnected && !isAuthorized && isLoggedIn && !localError && (
         <Card className="bg-amber-500/5 border-amber-500/20 backdrop-blur-xl">
           <CardContent className="p-3 flex items-center gap-3">
@@ -256,6 +257,7 @@ export function AutoBotTab({ theme = "dark", symbol, onSymbolChange, availableSy
         </Card>
       )}
 
+      {/* Emergency Stop Alert */}
       {isRunning && (
         <Card className="bg-amber-500/5 border-amber-500/20 backdrop-blur-xl animate-pulse">
           <CardContent className="p-4 flex items-center justify-between">
@@ -302,7 +304,7 @@ export function AutoBotTab({ theme = "dark", symbol, onSymbolChange, availableSy
           <CardTitle className="text-xs font-black uppercase tracking-[0.2em] text-slate-500">Autonomous Strategies</CardTitle>
         </CardHeader>
         <CardContent className="p-4 pt-0">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
             {BOT_STRATEGIES.map((strategy) => (
               <div
                 key={strategy.id}

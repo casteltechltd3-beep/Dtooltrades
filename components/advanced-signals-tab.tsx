@@ -232,7 +232,7 @@ export function AdvancedSignalsTab({ theme, availableSymbols }: AdvancedSignalsT
       {/* Results Grid - Modern Card Design */}
       <div>
         {filteredResults.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {filteredResults.map((result) => (
               result.signals.map((signal, idx) => (
                 <Card key={`${result.symbol}-${idx}`} className="border-indigo-500/40 bg-gradient-to-br from-indigo-500/10 via-white/[0.02] to-blue-500/5 hover:from-indigo-500/15 hover:via-white/[0.04] hover:to-blue-500/10 transition-all duration-300 p-5 overflow-hidden">

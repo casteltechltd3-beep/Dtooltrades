@@ -515,7 +515,7 @@ export function AutoBotTab({
 
       {/* Redundant Market Information and Trading Market cards removed as they are in the header */}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {BOT_STRATEGIES.map((strategy) => {
           const analysis = botAnalysis.get(strategy.id)
           const isReady = botReadyStatus.get(strategy.id) || false
@@ -538,51 +538,47 @@ export function AutoBotTab({
           return (
             <Card
               key={strategy.id}
-              className={`transition-all duration-300 ${isReady && !isRunning
+              className={`${isReady && !isRunning
                 ? theme === "dark"
-                  ? "bg-gradient-to-br from-secondary/25 to-secondary/10 border-secondary/60 shadow-lg shadow-secondary/20 animate-pulse"
-                  : "bg-gradient-to-br from-green-50 to-emerald-50 border-green-300"
-                : isRunning
-                  ? theme === "dark"
-                    ? "bg-gradient-to-br from-primary/20 to-primary/10 border-primary/50 shadow-lg shadow-primary/20"
-                    : "bg-blue-50 border-blue-300"
-                  : theme === "dark"
-                    ? "bg-card border-border/50 hover:border-border"
-                    : "bg-white border-gray-200"
+                  ? "bg-linear-to-br from-green-500/20 to-emerald-500/10 border-green-500/50 shadow-[0_0_20px_rgba(34,197,94,0.4)] animate-pulse"
+                  : "bg-linear-to-br from-green-50 to-emerald-50 border-green-400"
+                : theme === "dark"
+                  ? "bg-linear-to-br from-[#0f1629]/80 to-[#1a2235]/80 border-blue-500/20"
+                  : "bg-white border-gray-200"
                 }`}
             >
-              <CardHeader className="pb-3 border-b border-border/50">
-                <div className="flex items-start justify-between gap-3">
-                  <div className="flex-1">
-                    <CardTitle className={`text-base font-bold uppercase tracking-wider ${theme === "dark" ? "text-primary" : "text-blue-700"}`}>
+              <CardHeader className="pb-3">
+                <div className="flex items-start justify-between">
+                  <div>
+                    <CardTitle className={`text-base ${theme === "dark" ? "text-white" : "text-gray-900"}`}>
                       {strategy.name}
                     </CardTitle>
-                    <CardDescription className={`text-xs mt-2 font-medium ${theme === "dark" ? "text-muted-foreground" : "text-gray-600"}`}>
+                    <CardDescription className={`text-xs mt-1 ${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}>
                       {strategy.description}
                     </CardDescription>
-                    <div className={`text-xs mt-2 font-semibold uppercase tracking-wide ${theme === "dark" ? "text-accent" : "text-cyan-600"}`}>
+                    <div className={`text-[8px] sm:text-xs mt-0.5 sm:mt-1 ${theme === "dark" ? "text-cyan-400" : "text-cyan-600"}`}>
                       Ticks: {tickData.length}
                     </div>
                   </div>
-                  <div className="flex flex-col gap-2">
+                  <div className="flex flex-col gap-1 sm:gap-2">
                     {status && (
                       <Badge
-                        className={`text-xs px-3 py-1 font-bold uppercase tracking-wide ${status === "In Progress"
-                          ? "bg-primary/80 text-primary-foreground"
+                        className={`text-[8px] sm:text-[10px] px-1.5 sm:px-2 py-0 sm:py-0.5 ${status === "In Progress"
+                          ? "bg-blue-500 text-white"
                           : status.includes("Signal Found")
-                            ? "bg-warning/80 text-warning-foreground animate-pulse"
-                            : "bg-muted text-muted-foreground"
+                            ? "bg-yellow-500 text-white animate-pulse"
+                            : "bg-gray-500 text-white"
                           }`}
                       >
                         {status}
                       </Badge>
                     )}
                     {isReady && !isRunning && entryMet && (
-                      <Badge className="bg-secondary/80 text-secondary-foreground animate-pulse font-bold uppercase tracking-wide">ENTRY READY</Badge>
+                      <Badge className="bg-green-500 text-white animate-pulse">ENTRY READY</Badge>
                     )}
                     {isRunning && (
-                      <Badge className="bg-primary/80 text-primary-foreground font-bold uppercase tracking-wide flex items-center gap-1">
-                        <Activity className="w-3 h-3 animate-spin" />
+                      <Badge className="bg-blue-500 text-white">
+                        <Activity className="w-3 h-3 mr-1 animate-spin" />
                         TRADING
                       </Badge>
                     )}
@@ -593,16 +589,15 @@ export function AutoBotTab({
               <CardContent className="p-3 sm:p-6 sm:pt-0 space-y-2 sm:space-y-4">
                 {analysis && (
                   <>
-                    <div className={`p-3 sm:p-4 rounded-md ${theme === "dark" ? "bg-primary/15 border border-primary/40" : "bg-blue-50 border border-blue-200"}`}>
-                      <div className="flex justify-between items-center mb-2">
-                        <span className="text-xs uppercase font-bold text-muted-foreground tracking-wider">Market Power</span>
-                        <span className={`text-sm font-bold ${theme === "dark" ? "text-primary" : "text-blue-700"}`}>{(analysis.marketPower || 0).toFixed(1)}%</span>
+                    <div className={`p-2 sm:p-3 rounded-lg ${theme === "dark" ? "bg-blue-500/10 border border-blue-500/30" : "bg-blue-50 border border-blue-200"}`}>
+                      <div className="flex justify-between items-center mb-1 sm:mb-2">
+                        <span className={`text-xs sm:text-sm font-bold ${theme === "dark" ? "text-white" : "text-gray-900"}`}>{(analysis.marketPower || 0).toFixed(1)}%</span>
                       </div>
-                      <Progress value={analysis.marketPower} className={`h-2 ${theme === "dark" ? "bg-border" : "bg-gray-200"}`} />
+                      <Progress value={analysis.marketPower} className={`h-1 sm:h-2 ${theme === "dark" ? "bg-gray-700" : "bg-gray-200"}`} />
                     </div>
 
                     {analysis.powerDistribution && (
-                      <div className={`p-3 sm:p-4 rounded-md ${theme === "dark" ? "bg-accent/15 border border-accent/40" : "bg-cyan-50 border border-cyan-200"}`}>
+                      <div className={`p-2 sm:p-3 rounded-lg ${theme === "dark" ? "bg-purple-500/10 border border-purple-500/30" : "bg-purple-50 border border-purple-200"}`}>
                         <div className={`text-[10px] sm:text-xs font-semibold mb-1 sm:mb-2 ${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}>Digit Distribution</div>
                         <div className="grid grid-cols-5 gap-1">
                           {Object.entries(analysis.powerDistribution).map(([digit, count]) => {
