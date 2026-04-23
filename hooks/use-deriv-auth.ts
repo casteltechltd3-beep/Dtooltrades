@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef } from "react"
 import { DerivWebSocketManager } from "@/lib/deriv-websocket-manager"
 import { DERIV_CONFIG, DERIV_API } from "@/lib/deriv-config"
+import { initiateOAuthLogin, getCurrentOAuthToken, getStoredOAuthAccounts } from "@/lib/oauth-handler"
 
 interface Balance {
   amount: number
@@ -137,6 +138,16 @@ export function useDerivAuth() {
   useEffect(() => {
     if (typeof window === "undefined") return
 
+    // Check for OAuth callback
+    const oauthToken = getCurrentOAuthToken()
+    if (oauthToken && !token) {
+      console.log("[v0] OAuth token found, connecting...")
+      connectWithToken(oauthToken)
+      // Clean localStorage flags
+      localStorage.removeItem("deriv_oauth_authenticated")
+      return
+    }
+
     const extractTokensFromParams = (searchStr: string): Record<string, string> => {
       // Keep legacy extraction for backward compatibility or direct token pass-through
       const cleanedStr = searchStr.replace(/^[?#]/, '')
@@ -229,7 +240,9 @@ export function useDerivAuth() {
   }
 
   const requestLogin = () => {
-    setShowTokenModal(true)
+    // Use OAuth login as the primary method
+    console.log("[v0] Initiating Deriv OAuth login with app ID:", DERIV_CONFIG.APP_ID)
+    initiateOAuthLogin()
   }
 
   const logout = () => {

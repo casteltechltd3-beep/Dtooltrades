@@ -1,128 +1,84 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { parseOAuthParams } from '@/lib/oauth-handler'
 
 /**
- * OAuth 2.0 Callback Handler for Deriv
- * This endpoint receives the authorization code from Deriv's OAuth provider
- * and exchanges it for an access token using the PKCE code verifier
+ * OAuth Callback Handler for Deriv
+ * Receives account and token parameters from Deriv OAuth provider
+ * Query parameters format: acct1, token1, cur1, acct2, token2, cur2, etc.
+ * Redirects to home with OAuth data passed via client-side script
  */
-
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams
-    const code = searchParams.get('code')
-    const state = searchParams.get('state')
+    const queryString = request.nextUrl.search
     const error = searchParams.get('error')
-    const errorDescription = searchParams.get('error_description')
 
-    console.log('[v0] OAuth Callback received:', { code, state, error })
+    console.log('[v0] OAuth callback received')
 
     // Handle OAuth errors
     if (error) {
-      console.error('[v0] OAuth Error:', error, errorDescription)
+      console.error('[v0] OAuth Error:', error)
       return NextResponse.redirect(
-        new URL(
-          `/auth-error?error=${encodeURIComponent(error)}&description=${encodeURIComponent(errorDescription || '')}`,
-          request.nextUrl.origin
-        )
+        new URL('/?error=oauth_error', request.nextUrl.origin)
       )
     }
 
-    // Validate required parameters
-    if (!code) {
-      console.error('[v0] OAuth callback missing authorization code')
+    // Parse OAuth parameters (acct1, token1, cur1, etc.)
+    const { accounts } = parseOAuthParams(queryString)
+
+    if (!accounts || accounts.length === 0) {
+      console.error('[v0] No valid accounts found in OAuth callback')
       return NextResponse.redirect(
-        new URL(
-          '/auth-error?error=missing_code&description=Authorization%20code%20not%20received',
-          request.nextUrl.origin
-        )
+        new URL('/?error=no_accounts', request.nextUrl.origin)
       )
     }
 
-    // Validate state parameter for CSRF protection
-    if (typeof window === 'undefined') {
-      const sessionState = request.cookies.get('oauth_state')?.value
-      if (!state || state !== sessionState) {
-        console.error('[v0] OAuth state mismatch - possible CSRF attack')
-        return NextResponse.redirect(
-          new URL(
-            '/auth-error?error=state_mismatch&description=OAuth%20state%20validation%20failed',
-            request.nextUrl.origin
-          )
-        )
-      }
-    }
+    console.log('[v0] OAuth authentication successful, accounts found:', accounts.length)
 
-    // Exchange authorization code for access token
-    // This is done in a separate server action to keep the client_secret secure
-    const response = await fetch('https://auth.deriv.com/oauth2/token', {
-      method: 'POST',
+    // Return HTML that stores accounts in localStorage and redirects
+    const html = `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>Authenticating...</title>
+        </head>
+        <body>
+          <p>Authenticating with Deriv...</p>
+          <script>
+            try {
+              const accounts = ${JSON.stringify(accounts)};
+              localStorage.setItem('deriv_oauth_accounts', JSON.stringify(accounts));
+              
+              if (accounts.length > 0) {
+                const firstAccount = accounts[0];
+                localStorage.setItem('deriv_current_account', firstAccount.account);
+                localStorage.setItem('deriv_current_token', firstAccount.token);
+                localStorage.setItem('deriv_current_currency', firstAccount.currency);
+                localStorage.setItem('deriv_oauth_authenticated', 'true');
+                console.log('[v0] OAuth authentication successful');
+              }
+              
+              // Redirect to home
+              window.location.href = '/';
+            } catch (error) {
+              console.error('[v0] Error storing OAuth data:', error);
+              window.location.href = '/?error=storage_failed';
+            }
+          </script>
+        </body>
+      </html>
+    `
+
+    return new NextResponse(html, {
+      status: 200,
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'text/html',
       },
-      body: new URLSearchParams({
-        grant_type: 'authorization_code',
-        code,
-        client_id: process.env.NEXT_PUBLIC_DERIV_OAUTH_CLIENT_ID || '32EtOUHbr4zUOcHKwjgwj',
-        redirect_uri: `${request.nextUrl.origin}/api/auth/oauth-callback`,
-        code_verifier: request.cookies.get('pkce_code_verifier')?.value || '',
-      }).toString(),
     })
-
-    if (!response.ok) {
-      const errorData = await response.text()
-      console.error('[v0] Token exchange failed:', response.status, errorData)
-      return NextResponse.redirect(
-        new URL(
-          `/auth-error?error=token_exchange_failed&description=${encodeURIComponent(errorData)}`,
-          request.nextUrl.origin
-        )
-      )
-    }
-
-    const tokenData = await response.json()
-
-    console.log('[v0] OAuth token exchange successful')
-
-    // Store the access token in an HTTP-only cookie
-    const response_with_cookie = NextResponse.redirect(
-      new URL('/dashboard', request.nextUrl.origin)
-    )
-
-    response_with_cookie.cookies.set({
-      name: 'deriv_access_token',
-      value: tokenData.access_token,
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: tokenData.expires_in || 86400, // Default 24 hours
-      path: '/',
-    })
-
-    // Store user info if available
-    if (tokenData.user_id) {
-      response_with_cookie.cookies.set({
-        name: 'deriv_user_id',
-        value: tokenData.user_id.toString(),
-        httpOnly: false,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'lax',
-        maxAge: 86400,
-        path: '/',
-      })
-    }
-
-    // Clear OAuth state and PKCE verifier
-    response_with_cookie.cookies.delete('oauth_state')
-    response_with_cookie.cookies.delete('pkce_code_verifier')
-
-    return response_with_cookie
   } catch (error) {
     console.error('[v0] OAuth callback error:', error)
     return NextResponse.redirect(
-      new URL(
-        `/auth-error?error=server_error&description=${encodeURIComponent(error instanceof Error ? error.message : 'Unknown error')}`,
-        request.nextUrl.origin
-      )
+      new URL('/?error=oauth_failed', request.nextUrl.origin)
     )
   }
 }

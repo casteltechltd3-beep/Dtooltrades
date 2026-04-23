@@ -14,10 +14,14 @@
  * - Derivatives Base (optional): https://github.com/deriv-com/derivatives
  */
 
-export const DERIV_APP_ID = "32KGABH3pjSMkQ6JTotTG"
+export const DERIV_APP_ID = "113831"
 
 export const DERIV_CONFIG = {
   APP_ID: DERIV_APP_ID,
+  OAUTH_URL: "https://oauth.deriv.com/oauth2/authorize",
+  REDIRECT_URL: typeof window !== "undefined" 
+    ? `${window.location.origin}/api/auth/oauth-callback`
+    : "http://localhost:3000/api/auth/oauth-callback"
 } as const
 
 // Official Deriv Platform URLs
@@ -28,8 +32,10 @@ export const DERIV_PLATFORMS = {
   COPYTRADING: "https://app.deriv.com/copy-trading",
 } as const
 
-// Official Deriv Legacy API Endpoints
+// Official Deriv API Endpoints
 export const DERIV_API = {
+  // OAuth 2.0 Endpoints
+  OAUTH_AUTHORIZE: "https://oauth.deriv.com/oauth2/authorize",
   // Legacy V3 WebSocket Endpoints (for legacy Deriv API)
   WEBSOCKET_V3: "wss://ws.derivws.com/websockets/v3",
   WEBSOCKET_FALLBACK_V3: "wss://ws.binaryws.com/websockets/v3",
