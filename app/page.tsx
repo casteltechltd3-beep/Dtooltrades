@@ -68,17 +68,7 @@ export default function DerivAnalysisApp() {
     return saved ? JSON.parse(saved) : []
   })
   const globalContext = useGlobalTradingContext()
-  const { showTokenModal, submitApiToken, loginWithDeriv } = useDerivAuth()
-
-  // Wrapper to ensure OAuth login is properly triggered
-  const handleOAuthLogin = () => {
-    console.log("[v0] 🔐 Page: Triggering OAuth login...")
-    try {
-      loginWithDeriv()
-    } catch (error) {
-      console.error("[v0] ❌ Page: OAuth login error:", error)
-    }
-  }
+  const { showTokenModal, submitApiToken } = useDerivAuth()
 
   const {
     connectionStatus,
@@ -817,6 +807,7 @@ export default function DerivAnalysisApp() {
       <RiskDisclaimerModal
         isOpen={isDisclaimerOpen}
         onClose={() => setIsDisclaimerOpen(false)}
+        onAccept={() => setIsDisclaimerOpen(false)}
         theme={theme}
       />
 
@@ -833,7 +824,6 @@ export default function DerivAnalysisApp() {
       <ApiTokenModal
         open={showTokenModal}
         onSubmit={submitApiToken}
-        onOAuthLogin={handleOAuthLogin}
         theme={theme}
       />
     </div>

@@ -6,15 +6,15 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Key, ExternalLink, LogIn } from "lucide-react"
+import { initiateOAuthLogin } from "@/lib/oauth-handler"
 
 interface ApiTokenModalProps {
   open: boolean
   onSubmit: (token: string) => void
-  onOAuthLogin?: () => void
   theme?: "light" | "dark"
 }
 
-export function ApiTokenModal({ open, onSubmit, onOAuthLogin, theme = "dark" }: ApiTokenModalProps) {
+export function ApiTokenModal({ open, onSubmit, theme = "dark" }: ApiTokenModalProps) {
   const [tokenInput, setTokenInput] = useState("")
   const [loginMethod, setLoginMethod] = useState<"oauth" | "token">("oauth")
 
@@ -26,24 +26,9 @@ export function ApiTokenModal({ open, onSubmit, onOAuthLogin, theme = "dark" }: 
     onSubmit(tokenInput.trim())
   }
 
-  const handleOAuthClick = () => {
-    console.log("[v0] OAuth login button clicked")
-    // Check if running in v0 preview environment (vusercontent.net)
-    if (typeof window !== "undefined" && window.location.hostname.includes("vusercontent.net")) {
-      alert("OAuth login is not available in v0's preview environment due to Content Security Policy restrictions.\n\nTo use OAuth:\n1. Deploy this app to your own server\n2. Or use the API Token method below with a token from Deriv\n\nFor development, please enter your Deriv API token manually.")
-      return
-    }
-    
-    if (onOAuthLogin) {
-      try {
-        onOAuthLogin()
-      } catch (error) {
-        console.error("[v0] OAuth login error:", error)
-        alert(`OAuth login failed: ${error instanceof Error ? error.message : 'Unknown error'}`)
-      }
-    } else {
-      console.warn("[v0] onOAuthLogin callback not provided")
-    }
+  const handleOAuthLogin = () => {
+    console.log("[v0] OAuth login initiated from modal")
+    initiateOAuthLogin()
   }
 
   return (
@@ -60,68 +45,67 @@ export function ApiTokenModal({ open, onSubmit, onOAuthLogin, theme = "dark" }: 
               Connect to Deriv
             </div>
           </DialogTitle>
-          <DialogDescription className={theme === "dark" ? "text-gray-400" : "text-gray-600"}>
-            Choose your preferred authentication method to connect to the Deriv trading platform using the official Deriv API.
-          </DialogDescription>
+        <DialogDescription className={theme === "dark" ? "text-gray-400" : "text-gray-600"}>
+          Choose your preferred authentication method to connect to Deriv.
+        </DialogDescription>
         </DialogHeader>
 
         {/* OAuth Login Option */}
-        <div className={`p-4 rounded-lg border ${theme === "dark" ? "bg-green-500/10 border-green-500/30" : "bg-green-50 border-green-200"}`}>
-          <div className="flex items-center justify-between mb-2">
-            <h3 className={`font-semibold ${theme === "dark" ? "text-green-400" : "text-green-700"}`}>
-              OAuth 2.0 Login (Recommended)
-            </h3>
-            <span className={`text-xs px-2 py-1 rounded ${theme === "dark" ? "bg-green-500/30 text-green-300" : "bg-green-200 text-green-800"}`}>
-              Secure
-            </span>
-          </div>
-          <p className={`text-sm mb-3 ${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}>
-            Use your Deriv account credentials directly. No API token management needed.
-          </p>
-          <Button
-            onClick={handleOAuthClick}
-            className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-2"
+        <div className={`p-4 rounded-lg border ${loginMethod === "oauth" ? (theme === "dark" ? "bg-blue-500/10 border-blue-500/50" : "bg-blue-50 border-blue-300") : (theme === "dark" ? "bg-gray-900/50 border-gray-700" : "bg-gray-100 border-gray-300")}`}>
+          <button
+            onClick={() => setLoginMethod("oauth")}
+            className="w-full text-left"
           >
-            <LogIn className="w-4 h-4 mr-2" />
-            Login with Deriv OAuth
-          </Button>
-          <div className={`text-xs p-2 rounded mt-2 ${theme === "dark" ? "bg-blue-500/20 border border-blue-500/30 text-blue-300" : "bg-blue-50 border border-blue-200 text-blue-700"}`}>
-            <p className="font-semibold mb-1">First-time setup required:</p>
-            <ol className="list-decimal list-inside space-y-1">
-              <li>Log in to Deriv</li>
-              <li>Go to Settings → API Tokens → OAuth Apps</li>
-              <li>Edit app <code className="bg-slate-800 px-1 rounded text-cyan-400">32EtOUHbr4zUOcHKwjgwj</code></li>
-              <li>Add this callback URL to "Redirect URIs":</li>
-            </ol>
-            <code className={`block p-1 rounded mt-1 break-all text-[9px] font-mono ${
-              theme === "dark" ? "bg-slate-900 text-cyan-300" : "bg-slate-100 text-cyan-600"
-            }`}>
-              {typeof window !== 'undefined' && `${window.location.origin}/api/auth/oauth-callback`}
-            </code>
-            <a
-              href="https://app.deriv.com/account/api-token"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`inline-block mt-2 font-medium ${theme === "dark" ? "text-blue-400 hover:text-blue-300" : "text-blue-600 hover:text-blue-700"}`}
+            <div className="flex items-center justify-between mb-2">
+              <h3 className={`font-semibold ${loginMethod === "oauth" ? (theme === "dark" ? "text-blue-400" : "text-blue-700") : (theme === "dark" ? "text-gray-300" : "text-gray-700")}`}>
+                Deriv OAuth Login (Recommended)
+              </h3>
+              <span className={`text-xs px-2 py-1 rounded ${theme === "dark" ? "bg-blue-500/30 text-blue-300" : "bg-blue-200 text-blue-800"}`}>
+                Secure
+              </span>
+            </div>
+            <p className={`text-sm ${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}>
+              Sign in with your Deriv account directly
+            </p>
+          </button>
+          {loginMethod === "oauth" && (
+            <Button
+              onClick={handleOAuthLogin}
+              className="w-full mt-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold"
             >
-              Go to Deriv OAuth Settings →
-            </a>
-          </div>
+              <LogIn className="w-4 h-4 mr-2" />
+              Login with Deriv
+            </Button>
+          )}
         </div>
 
-        {/* Divider */}
-        <div className="flex items-center gap-2 my-4">
-          <div className={`flex-1 h-px ${theme === "dark" ? "bg-gray-700" : "bg-gray-300"}`} />
-          <span className={`text-xs ${theme === "dark" ? "text-gray-500" : "text-gray-400"}`}>OR</span>
-          <div className={`flex-1 h-px ${theme === "dark" ? "bg-gray-700" : "bg-gray-300"}`} />
+        {/* Token Option */}
+        <div className={`p-4 rounded-lg border ${loginMethod === "token" ? (theme === "dark" ? "bg-amber-500/10 border-amber-500/50" : "bg-amber-50 border-amber-300") : (theme === "dark" ? "bg-gray-900/50 border-gray-700" : "bg-gray-100 border-gray-300")}`}>
+          <button
+            onClick={() => setLoginMethod("token")}
+            className="w-full text-left"
+          >
+            <div className="flex items-center justify-between mb-2">
+              <h3 className={`font-semibold ${loginMethod === "token" ? (theme === "dark" ? "text-amber-400" : "text-amber-700") : (theme === "dark" ? "text-gray-300" : "text-gray-700")}`}>
+                Legacy API Token
+              </h3>
+              <span className={`text-xs px-2 py-1 rounded ${theme === "dark" ? "bg-gray-700 text-gray-300" : "bg-gray-300 text-gray-700"}`}>
+                Alternative
+              </span>
+            </div>
+            <p className={`text-sm ${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}>
+              Use your Deriv API token directly
+            </p>
+          </button>
         </div>
 
+        {loginMethod === "token" && (
         <div className="space-y-4 py-2">
           <div className="space-y-2">
             <Label htmlFor="api-token" className={theme === "dark" ? "text-white" : "text-gray-900"}>
               <div className="flex items-center gap-2">
                 <Key className="w-4 h-4" />
-                Deriv API Token (Manual)
+                Deriv Legacy API Token
               </div>
             </Label>
             <Input
