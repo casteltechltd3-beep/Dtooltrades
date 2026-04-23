@@ -15,25 +15,9 @@
  */
 
 export const DERIV_APP_ID = "32KGABH3pjSMkQ6JTotTG"
-export const OAUTH_CLIENT_ID = "32EtOUHbr4zUOcHKwjgwj"
-
-// Get redirect URL based on environment
-// This must match the pre-registered redirect URIs in the Deriv OAuth app
-const getOAuthRedirectUrl = () => {
-  if (typeof window === "undefined") return "http://localhost:3000"
-  
-  const origin = window.location.origin
-  
-  // Add /api/auth/oauth-callback as the standard OAuth redirect path
-  return `${origin}/api/auth/oauth-callback`
-}
-
-export const DERIV_REDIRECT_URL = getOAuthRedirectUrl()
 
 export const DERIV_CONFIG = {
   APP_ID: DERIV_APP_ID,
-  OAUTH_CLIENT_ID: OAUTH_CLIENT_ID,
-  REDIRECT_URL: DERIV_REDIRECT_URL,
 } as const
 
 // Official Deriv Platform URLs
@@ -44,25 +28,11 @@ export const DERIV_PLATFORMS = {
   COPYTRADING: "https://app.deriv.com/copy-trading",
 } as const
 
-// Official Deriv API Endpoints
+// Official Deriv Legacy API Endpoints
 export const DERIV_API = {
-  // Legacy V3 Endpoints (kept for fallback/reference if needed)
+  // Legacy V3 WebSocket Endpoints (for legacy Deriv API)
   WEBSOCKET_V3: "wss://ws.derivws.com/websockets/v3",
   WEBSOCKET_FALLBACK_V3: "wss://ws.binaryws.com/websockets/v3",
-  
-  // V4 API Endpoints
-  WEBSOCKET: "wss://api.derivws.com/trading/v1/options/ws/public",
-  OAUTH: "https://auth.deriv.com/oauth2/auth",
-  TOKEN: "https://auth.deriv.com/oauth2/token",
-  
-  // New Options API (REST)
-  REST_BASE: "https://api.derivws.com",
-  // New Options API (WebSocket - paths)
-  OPTIONS_WS: {
-    DEMO: "wss://api.derivws.com/trading/v1/options/ws/demo",
-    REAL: "wss://api.derivws.com/trading/v1/options/ws/real",
-    PUBLIC: "wss://api.derivws.com/trading/v1/options/ws/public",
-  }
 } as const
 
 // Official GitHub Repositories
