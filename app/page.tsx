@@ -187,7 +187,7 @@ export default function DerivAnalysisApp() {
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full flex-1 flex flex-col relative">
         {!siteConfig?.headerHidden && (
           <>
-            <DerivHeader theme={theme} currentSymbol={symbol} onSymbolChange={changeSymbol} />
+            <DerivHeader theme={theme} currentSymbol={symbol} onSymbolChange={changeSymbol} symbols={availableSymbols} />
             <TradingHeader 
               theme={theme}
               toggleTheme={toggleTheme}

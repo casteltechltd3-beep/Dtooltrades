@@ -4,33 +4,54 @@ import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { ChevronDown } from "lucide-react"
 import { fetchActiveSymbols, groupSymbolsByMarket, type ActiveSymbol } from "@/lib/active-symbols"
+import type { DerivSymbol } from "@/hooks/use-deriv"
 
 interface DerivHeaderProps {
   theme?: "light" | "dark"
   currentSymbol?: string
   onSymbolChange?: (symbol: string) => void
+  symbols?: DerivSymbol[]
 }
 
 export function DerivHeader({ 
   theme = "dark",
   currentSymbol = "R_100",
-  onSymbolChange
+  onSymbolChange,
+  symbols: externalSymbols = []
 }: DerivHeaderProps) {
   const [showSymbolDropdown, setShowSymbolDropdown] = useState(false)
   const [symbols, setSymbols] = useState<ActiveSymbol[]>([])
   const [groupedSymbols, setGroupedSymbols] = useState<Map<string, ActiveSymbol[]>>(new Map())
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(!externalSymbols.length)
 
   useEffect(() => {
-    const loadSymbols = async () => {
-      setIsLoading(true)
-      const activeSymbols = await fetchActiveSymbols()
-      setSymbols(activeSymbols)
-      setGroupedSymbols(groupSymbolsByMarket(activeSymbols))
+    if (externalSymbols && externalSymbols.length > 0) {
+      // Use external symbols from page context
+      const mappedSymbols: ActiveSymbol[] = externalSymbols.map(sym => ({
+        symbol: sym.symbol,
+        display_name: sym.display_name,
+        market_display_name: sym.market_display_name || '',
+        submarket_display_name: '',
+        market: sym.market || '',
+        submarket: '',
+        pip: sym.pip_size?.toString() || '0.0001',
+        intraday_interval_minutes: [1, 5, 15, 30, 60]
+      }))
+      setSymbols(mappedSymbols)
+      setGroupedSymbols(groupSymbolsByMarket(mappedSymbols))
       setIsLoading(false)
+    } else {
+      // Fallback to fetching
+      const loadSymbols = async () => {
+        setIsLoading(true)
+        const activeSymbols = await fetchActiveSymbols()
+        setSymbols(activeSymbols)
+        setGroupedSymbols(groupSymbolsByMarket(activeSymbols))
+        setIsLoading(false)
+      }
+      loadSymbols()
     }
-    loadSymbols()
-  }, [])
+  }, [externalSymbols])
 
   return (
     <div

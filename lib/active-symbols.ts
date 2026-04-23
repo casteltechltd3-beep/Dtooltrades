@@ -29,12 +29,14 @@ interface CachedSymbols {
  */
 export async function fetchActiveSymbols(): Promise<ActiveSymbol[]> {
   try {
-    // Check cache first
-    const cached = localStorage.getItem(CACHE_KEY)
-    if (cached) {
-      const parsed = JSON.parse(cached) as CachedSymbols
-      if (Date.now() - parsed.timestamp < CACHE_DURATION) {
-        return parsed.data
+    // Check cache first (only in client)
+    if (typeof window !== 'undefined') {
+      const cached = localStorage.getItem(CACHE_KEY)
+      if (cached) {
+        const parsed = JSON.parse(cached) as CachedSymbols
+        if (Date.now() - parsed.timestamp < CACHE_DURATION) {
+          return parsed.data
+        }
       }
     }
 
@@ -53,11 +55,13 @@ export async function fetchActiveSymbols(): Promise<ActiveSymbol[]> {
 
     const symbols: ActiveSymbol[] = data.active_symbols
 
-    // Cache the result
-    localStorage.setItem(CACHE_KEY, JSON.stringify({
-      data: symbols,
-      timestamp: Date.now()
-    }))
+    // Cache the result (only in client)
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(CACHE_KEY, JSON.stringify({
+        data: symbols,
+        timestamp: Date.now()
+      }))
+    }
 
     return symbols
   } catch (error) {
