@@ -1,20 +1,9 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { ChevronDown } from "lucide-react"
-
-// Popular active symbols
-const POPULAR_SYMBOLS = [
-  { symbol: "R_100", name: "R/100 VOL", category: "Synthetics" },
-  { symbol: "EURUSD", name: "EUR/USD", category: "Forex" },
-  { symbol: "GBPUSD", name: "GBP/USD", category: "Forex" },
-  { symbol: "USDJPY", name: "USD/JPY", category: "Forex" },
-  { symbol: "BTCUSD", name: "BTC/USD", category: "Crypto" },
-  { symbol: "ETHUSD", name: "ETH/USD", category: "Crypto" },
-  { symbol: "GOLD", name: "Gold", category: "Commodities" },
-  { symbol: "OIL", name: "Oil", category: "Commodities" },
-]
+import { fetchActiveSymbols, groupSymbolsByMarket, type ActiveSymbol } from "@/lib/active-symbols"
 
 interface DerivHeaderProps {
   theme?: "light" | "dark"
@@ -28,6 +17,20 @@ export function DerivHeader({
   onSymbolChange
 }: DerivHeaderProps) {
   const [showSymbolDropdown, setShowSymbolDropdown] = useState(false)
+  const [symbols, setSymbols] = useState<ActiveSymbol[]>([])
+  const [groupedSymbols, setGroupedSymbols] = useState<Map<string, ActiveSymbol[]>>(new Map())
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    const loadSymbols = async () => {
+      setIsLoading(true)
+      const activeSymbols = await fetchActiveSymbols()
+      setSymbols(activeSymbols)
+      setGroupedSymbols(groupSymbolsByMarket(activeSymbols))
+      setIsLoading(false)
+    }
+    loadSymbols()
+  }, [])
 
   return (
     <div
@@ -63,23 +66,23 @@ export function DerivHeader({
             theme === "dark"
               ? "bg-card border-border"
               : "bg-white border-gray-200"
-          } w-72 max-h-96 overflow-y-auto`}>
-            {/* Categories */}
-            {["Synthetics", "Forex", "Crypto", "Commodities"].map((category) => {
-              const items = POPULAR_SYMBOLS.filter(s => s.category === category)
-              return items.length > 0 ? (
-                <div key={category}>
+          } w-80 max-h-96 overflow-y-auto`}>
+            {isLoading ? (
+              <div className="px-4 py-6 text-center text-xs text-muted-foreground">Loading symbols...</div>
+            ) : groupedSymbols.size > 0 ? (
+              Array.from(groupedSymbols.entries()).map(([market, marketSymbols]) => (
+                <div key={market}>
                   <div className="px-4 py-2.5 bg-border/30 border-b border-border/50">
-                    <p className="text-xs font-bold text-muted-foreground uppercase tracking-wider">{category}</p>
+                    <p className="text-xs font-bold text-muted-foreground uppercase tracking-wider">{market}</p>
                   </div>
-                  {items.map((sym) => (
+                  {marketSymbols.map((sym) => (
                     <button
                       key={sym.symbol}
                       onClick={() => {
                         onSymbolChange?.(sym.symbol)
                         setShowSymbolDropdown(false)
                       }}
-                      className={`w-full px-4 py-3 text-left text-sm transition-all border-b border-border/30 last:border-b-0 flex justify-between items-center ${
+                      className={`w-full px-4 py-3 text-left text-sm transition-all border-b border-border/30 last:border-b-0 ${
                         currentSymbol === sym.symbol
                           ? theme === "dark"
                             ? "bg-primary/20 text-primary font-bold"
@@ -89,13 +92,17 @@ export function DerivHeader({
                             : "text-gray-700 hover:bg-gray-100"
                       }`}
                     >
-                      <span className="font-bold">{sym.name}</span>
-                      <span className="text-xs text-muted-foreground font-semibold">{sym.symbol}</span>
+                      <div className="flex justify-between items-center">
+                        <span className="font-bold">{sym.display_name}</span>
+                        <span className="text-xs text-muted-foreground font-semibold">{sym.symbol}</span>
+                      </div>
                     </button>
                   ))}
                 </div>
-              ) : null
-            })}
+              ))
+            ) : (
+              <div className="px-4 py-6 text-center text-xs text-muted-foreground">No symbols available</div>
+            )}
           </div>
         )}
       </div>
